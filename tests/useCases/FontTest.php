@@ -72,24 +72,45 @@ class FontTest extends TestBase
         Assert::assertTrue($result->isFile());
     }
 
-    public function testSetEmbeddedFontFromRequest()
+    public function testSetEmbeddedFonts()
     {
         $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
-        $file = fopen(self::localFolderName."/".self::fontFileName, 'r');
-        $result = $this->getSlidesApi()->setEmbeddedFontFromRequest($file, self::fileName, false, self::password, self::folderName);
+        $fonts = [ self::fontName ];
+        $result = $this->getSlidesApi()->setEmbeddedFonts(self::fileName, $fonts, null, false, self::password, self::folderName);
         Assert::assertNull($result->getList()[0]->getIsEmbedded());
         Assert::assertNotNull($result->getList()[1]->getIsEmbedded());
         Assert::assertTrue($result->getList()[2]->getIsEmbedded());
         Assert::assertEquals(self::fontName, $result->getList()[2]->getFontName());
     }
 
-    public function testSetEmbeddedFontFromRequestOnline()
+    public function testSetEmbeddedFontsFromRequest()
+    {
+        $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
+        $file = fopen(self::localFolderName."/".self::fontFileName, 'r');
+        $files = [ $file ];
+        $result = $this->getSlidesApi()->setEmbeddedFonts(self::fileName, null, $files, false, self::password, self::folderName);
+        Assert::assertNull($result->getList()[0]->getIsEmbedded());
+        Assert::assertNotNull($result->getList()[1]->getIsEmbedded());
+        Assert::assertTrue($result->getList()[2]->getIsEmbedded());
+        Assert::assertEquals(self::fontName, $result->getList()[2]->getFontName());
+    }
+
+    public function testSetEmbeddedFontsOnline()
+    {
+        $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
+        $file = fopen(self::localFilePath, 'r');
+        $fonts = [ self::fontName ];
+        $result = $this->getSlidesApi()->setEmbeddedFontsOnline($file, $fonts, null, false, self::password, self::folderName);
+        Assert::assertTrue($result->isFile());
+    }
+
+    public function testSetEmbeddedFontsFromRequestOnline()
     {
         $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
         $file = fopen(self::localFilePath, 'r');
         $fontFile = fopen(self::localFolderName."/".self::fontFileName, 'r');
-
-        $result = $this->getSlidesApi()->setEmbeddedFontFromRequestOnline($file, $fontFile, false, self::password, self::folderName);
+        $fontFile = [ $fontFile ];
+        $result = $this->getSlidesApi()->setEmbeddedFontsOnline($file, null, $fontFiles, false, self::password, self::folderName);
         Assert::assertTrue($result->isFile());
     }
 

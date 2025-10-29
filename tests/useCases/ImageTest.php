@@ -38,8 +38,12 @@ class ImageTest extends TestBase
     {
         $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
         $images = $this->getSlidesApi()->getPresentationImages(self::fileName, self::password, self::folderName);
-        $slideImages = $this->getSlidesApi()->getSlideImages(self::fileName, self::slideIndex, self::password, self::folderName);
+        $slideImages = $this->getSlidesApi()->getSlideImages(self::fileName, self::slideIndex, null, null, self::password, self::folderName);
         Assert::assertTrue(count($images->getList()) > count($slideImages->getList()));
+        $shapeImages = $this->getSlidesApi()->getSlideImages(self::fileName, self::slideIndex, 2, null, self::password, self::folderName);
+        Assert::assertEquals(1, count($shapeImages->getList()));
+        $altImages = $this->getSlidesApi()->getSlideImages(self::fileName, self::slideIndex, null, "title", self::password, self::folderName);
+        Assert::assertEquals(0, count($altImages->getList()));
     }
 
     public function testImagesDownloadStorage()

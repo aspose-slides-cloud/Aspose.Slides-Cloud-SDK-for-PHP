@@ -49,15 +49,15 @@ class VideoTest extends TestBase
         $dto = new VideoFrame();
         $dto->setBase64Data("bXAzc2FtcGxl");
         $this->getSlidesApi()->createShape(self::fileName, $slideIndex, $dto, null, null, self::password, self::folderName);
-        $captions = $this->getSlidesApi()->getVideoCaptionTracks(
+        $captions = $this->getSlidesApi()->getCaptionTracks(
             self::fileName, $slideIndex, $shapeIndex, null, self::password, self::folderName);
         Assert::assertEquals(0, count($captions->getItems()));
 
-        $this->getSlidesApi()->createVideoCaptionTrack(
+        $this->getSlidesApi()->createCaptionTrack(
             self::fileName, $slideIndex, $shapeIndex, $track1Label, $track1Data, self::password, self::folderName);
-        $this->getSlidesApi()->createVideoCaptionTrack(
+        $this->getSlidesApi()->createCaptionTrack(
             self::fileName, $slideIndex, $shapeIndex, $track2Label, $track2Data, self::password, self::folderName);
-        $captions = $this->getSlidesApi()->getVideoCaptionTracks(
+        $captions = $this->getSlidesApi()->getCaptionTracks(
             self::fileName, $slideIndex, $shapeIndex, true, self::password, self::folderName);
         Assert::assertEquals(2, count($captions->getItems()));
         Assert::assertEquals($track1Label, $captions->getItems()[0]->getLabel());
@@ -65,17 +65,17 @@ class VideoTest extends TestBase
         Assert::assertEquals($track2Label, $captions->getItems()[1]->getLabel());
         Assert::assertEquals($track2Data, $captions->getItems()[1]->getDataAsString());
 
-        $this->getSlidesApi()->deleteVideoCaptionTrack(
+        $this->getSlidesApi()->deleteCaptionTrack(
             self::fileName, $slideIndex, $shapeIndex, 1, self::password, self::folderName);
-        $captions = $this->getSlidesApi()->getVideoCaptionTracks(
+        $captions = $this->getSlidesApi()->getCaptionTracks(
             self::fileName, $slideIndex, $shapeIndex, false, self::password, self::folderName);
         Assert::assertEquals(1, count($captions->getItems()));
         Assert::assertEquals($track2Label, $captions->getItems()[0]->getLabel());
         Assert::assertNull($captions->getItems()[0]->getDataAsString());
 
-        $this->getSlidesApi()->deleteVideoCaptionTracks(
+        $this->getSlidesApi()->deleteCaptionTracks(
             self::fileName, $slideIndex, $shapeIndex, self::password, self::folderName);
-        $captions = $this->getSlidesApi()->getVideoCaptionTracks(
+        $captions = $this->getSlidesApi()->getCaptionTracks(
             self::fileName, $slideIndex, $shapeIndex, true, self::password, self::folderName);
         Assert::assertEquals(0, count($captions->getItems()));
     }
