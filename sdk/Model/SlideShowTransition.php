@@ -80,7 +80,8 @@ class SlideShowTransition implements ArrayAccess
         'cornerAndCenterDirection' => 'string',
         'shredPattern' => 'string',
         'orientation' => 'string',
-        'spokes' => 'int'
+        'spokes' => 'int',
+        'duration' => 'int'
     ];
 
     /**
@@ -112,7 +113,8 @@ class SlideShowTransition implements ArrayAccess
         'cornerAndCenterDirection' => null,
         'shredPattern' => null,
         'orientation' => null,
-        'spokes' => 'int32'
+        'spokes' => 'int32',
+        'duration' => 'int32'
     ];
 
     /**
@@ -165,7 +167,8 @@ class SlideShowTransition implements ArrayAccess
         'cornerAndCenterDirection' => 'CornerAndCenterDirection',
         'shredPattern' => 'ShredPattern',
         'orientation' => 'Orientation',
-        'spokes' => 'Spokes'
+        'spokes' => 'Spokes',
+        'duration' => 'Duration'
     ];
 
     /**
@@ -197,7 +200,8 @@ class SlideShowTransition implements ArrayAccess
         'cornerAndCenterDirection' => 'setCornerAndCenterDirection',
         'shredPattern' => 'setShredPattern',
         'orientation' => 'setOrientation',
-        'spokes' => 'setSpokes'
+        'spokes' => 'setSpokes',
+        'duration' => 'setDuration'
     ];
 
     /**
@@ -229,7 +233,8 @@ class SlideShowTransition implements ArrayAccess
         'cornerAndCenterDirection' => 'getCornerAndCenterDirection',
         'shredPattern' => 'getShredPattern',
         'orientation' => 'getOrientation',
-        'spokes' => 'getSpokes'
+        'spokes' => 'getSpokes',
+        'duration' => 'getDuration'
     ];
 
     /**
@@ -668,6 +673,7 @@ class SlideShowTransition implements ArrayAccess
         $this->container['shredPattern'] = isset($data['shredPattern']) ? $data['shredPattern'] : null;
         $this->container['orientation'] = isset($data['orientation']) ? $data['orientation'] : null;
         $this->container['spokes'] = isset($data['spokes']) ? $data['spokes'] : null;
+        $this->container['duration'] = isset($data['duration']) ? $data['duration'] : null;
         
     }
 
@@ -1758,6 +1764,30 @@ class SlideShowTransition implements ArrayAccess
     public function setSpokes($spokes)
     {
         $this->container['spokes'] = $spokes;
+
+        return $this;
+    }
+
+    /**
+     * Gets duration
+     *
+     * @return int
+     */
+    public function getDuration()
+    {
+        return $this->container['duration'];
+    }
+
+    /**
+     * Sets duration
+     *
+     * @param int $duration The duration of the slide transition effect in milliseconds. If not set, the duration is determined automatically based on Speed and Type values.
+     *
+     * @return $this
+     */
+    public function setDuration($duration)
+    {
+        $this->container['duration'] = $duration;
 
         return $this;
     }

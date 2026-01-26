@@ -177,6 +177,7 @@ class MathElement implements ArrayAccess
     const TYPE_RIGHT_SUB_SUPERSCRIPT_ELEMENT = 'RightSubSuperscriptElement';
     const TYPE_SUBSCRIPT_ELEMENT = 'SubscriptElement';
     const TYPE_SUPERSCRIPT_ELEMENT = 'SuperscriptElement';
+    const TYPE_PHANTOM = 'Phantom';
     
 
     
@@ -207,6 +208,7 @@ class MathElement implements ArrayAccess
             self::TYPE_RIGHT_SUB_SUPERSCRIPT_ELEMENT,
             self::TYPE_SUBSCRIPT_ELEMENT,
             self::TYPE_SUPERSCRIPT_ELEMENT,
+            self::TYPE_PHANTOM,
         ];
     }
     

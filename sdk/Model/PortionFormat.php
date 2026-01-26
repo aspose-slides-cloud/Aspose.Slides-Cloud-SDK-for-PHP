@@ -85,7 +85,8 @@ class PortionFormat implements ArrayAccess
         'hyperlinkMouseOver' => '\Aspose\Slides\Cloud\Sdk\Model\Hyperlink',
         'latinFont' => 'string',
         'eastAsianFont' => 'string',
-        'complexScriptFont' => 'string'
+        'complexScriptFont' => 'string',
+        'spellCheck' => 'bool'
     ];
 
     /**
@@ -122,7 +123,8 @@ class PortionFormat implements ArrayAccess
         'hyperlinkMouseOver' => null,
         'latinFont' => null,
         'eastAsianFont' => null,
-        'complexScriptFont' => null
+        'complexScriptFont' => null,
+        'spellCheck' => null
     ];
 
     /**
@@ -180,7 +182,8 @@ class PortionFormat implements ArrayAccess
         'hyperlinkMouseOver' => 'HyperlinkMouseOver',
         'latinFont' => 'LatinFont',
         'eastAsianFont' => 'EastAsianFont',
-        'complexScriptFont' => 'ComplexScriptFont'
+        'complexScriptFont' => 'ComplexScriptFont',
+        'spellCheck' => 'SpellCheck'
     ];
 
     /**
@@ -217,7 +220,8 @@ class PortionFormat implements ArrayAccess
         'hyperlinkMouseOver' => 'setHyperlinkMouseOver',
         'latinFont' => 'setLatinFont',
         'eastAsianFont' => 'setEastAsianFont',
-        'complexScriptFont' => 'setComplexScriptFont'
+        'complexScriptFont' => 'setComplexScriptFont',
+        'spellCheck' => 'setSpellCheck'
     ];
 
     /**
@@ -254,7 +258,8 @@ class PortionFormat implements ArrayAccess
         'hyperlinkMouseOver' => 'getHyperlinkMouseOver',
         'latinFont' => 'getLatinFont',
         'eastAsianFont' => 'getEastAsianFont',
-        'complexScriptFont' => 'getComplexScriptFont'
+        'complexScriptFont' => 'getComplexScriptFont',
+        'spellCheck' => 'getSpellCheck'
     ];
 
     /**
@@ -552,6 +557,7 @@ class PortionFormat implements ArrayAccess
         $this->container['latinFont'] = isset($data['latinFont']) ? $data['latinFont'] : null;
         $this->container['eastAsianFont'] = isset($data['eastAsianFont']) ? $data['eastAsianFont'] : null;
         $this->container['complexScriptFont'] = isset($data['complexScriptFont']) ? $data['complexScriptFont'] : null;
+        $this->container['spellCheck'] = isset($data['spellCheck']) ? $data['spellCheck'] : null;
         
     }
 
@@ -1622,6 +1628,30 @@ class PortionFormat implements ArrayAccess
     public function setComplexScriptFont($complexScriptFont)
     {
         $this->container['complexScriptFont'] = $complexScriptFont;
+
+        return $this;
+    }
+
+    /**
+     * Gets spellCheck
+     *
+     * @return bool
+     */
+    public function getSpellCheck()
+    {
+        return $this->container['spellCheck'];
+    }
+
+    /**
+     * Sets spellCheck
+     *
+     * @param bool $spellCheck true to enable spell checking for the portion.
+     *
+     * @return $this
+     */
+    public function setSpellCheck($spellCheck)
+    {
+        $this->container['spellCheck'] = $spellCheck;
 
         return $this;
     }

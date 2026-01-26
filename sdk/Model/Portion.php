@@ -72,6 +72,7 @@ class Portion extends ResourceBase
         'smartTagClean' => 'bool',
         'kerningMinimalSize' => 'double',
         'kumimoji' => 'string',
+        'spellCheck' => 'bool',
         'languageId' => 'string',
         'alternativeLanguageId' => 'string',
         'isHardUnderlineFill' => 'string',
@@ -111,6 +112,7 @@ class Portion extends ResourceBase
         'smartTagClean' => null,
         'kerningMinimalSize' => 'double',
         'kumimoji' => null,
+        'spellCheck' => null,
         'languageId' => null,
         'alternativeLanguageId' => null,
         'isHardUnderlineFill' => null,
@@ -171,6 +173,7 @@ class Portion extends ResourceBase
         'smartTagClean' => 'SmartTagClean',
         'kerningMinimalSize' => 'KerningMinimalSize',
         'kumimoji' => 'Kumimoji',
+        'spellCheck' => 'SpellCheck',
         'languageId' => 'LanguageId',
         'alternativeLanguageId' => 'AlternativeLanguageId',
         'isHardUnderlineFill' => 'IsHardUnderlineFill',
@@ -210,6 +213,7 @@ class Portion extends ResourceBase
         'smartTagClean' => 'setSmartTagClean',
         'kerningMinimalSize' => 'setKerningMinimalSize',
         'kumimoji' => 'setKumimoji',
+        'spellCheck' => 'setSpellCheck',
         'languageId' => 'setLanguageId',
         'alternativeLanguageId' => 'setAlternativeLanguageId',
         'isHardUnderlineFill' => 'setIsHardUnderlineFill',
@@ -249,6 +253,7 @@ class Portion extends ResourceBase
         'smartTagClean' => 'getSmartTagClean',
         'kerningMinimalSize' => 'getKerningMinimalSize',
         'kumimoji' => 'getKumimoji',
+        'spellCheck' => 'getSpellCheck',
         'languageId' => 'getLanguageId',
         'alternativeLanguageId' => 'getAlternativeLanguageId',
         'isHardUnderlineFill' => 'getIsHardUnderlineFill',
@@ -544,6 +549,7 @@ class Portion extends ResourceBase
         $this->container['smartTagClean'] = isset($data['smartTagClean']) ? $data['smartTagClean'] : null;
         $this->container['kerningMinimalSize'] = isset($data['kerningMinimalSize']) ? $data['kerningMinimalSize'] : null;
         $this->container['kumimoji'] = isset($data['kumimoji']) ? $data['kumimoji'] : null;
+        $this->container['spellCheck'] = isset($data['spellCheck']) ? $data['spellCheck'] : null;
         $this->container['languageId'] = isset($data['languageId']) ? $data['languageId'] : null;
         $this->container['alternativeLanguageId'] = isset($data['alternativeLanguageId']) ? $data['alternativeLanguageId'] : null;
         $this->container['isHardUnderlineFill'] = isset($data['isHardUnderlineFill']) ? $data['isHardUnderlineFill'] : null;
@@ -1297,6 +1303,30 @@ class Portion extends ResourceBase
             }
         }
         $this->container['kumimoji'] = $kumimoji;
+
+        return $this;
+    }
+
+    /**
+     * Gets spellCheck
+     *
+     * @return bool
+     */
+    public function getSpellCheck()
+    {
+        return $this->container['spellCheck'];
+    }
+
+    /**
+     * Sets spellCheck
+     *
+     * @param bool $spellCheck true to enable spell checking for the portion.
+     *
+     * @return $this
+     */
+    public function setSpellCheck($spellCheck)
+    {
+        $this->container['spellCheck'] = $spellCheck;
 
         return $this;
     }
