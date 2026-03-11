@@ -4,7 +4,7 @@
     "type": 		"library",
     "keywords" : 	["aspose", "php", "aspose cloud"],
     "license": 		"MIT",
-    "homepage": "https://github.com/aspose-slides-cloud/aspose-slides-cloud-php",
+    "homepage": "https://github.com/aspose-slides-cloud/Aspose.Slides-Cloud-SDK-for-PHP",
     "config": {
         "platform": {
             "php": "7.2.5"
