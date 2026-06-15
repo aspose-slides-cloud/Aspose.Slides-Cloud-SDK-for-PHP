@@ -77,7 +77,7 @@ class LayoutSlideTest extends TestBase
         $dto->setText("New shape");
 
         $shape = $this->getSlidesApi()->CreateSpecialSlideShape(
-            self::fileName, self::slideIndex, SpecialSlideType::LAYOUT_SLIDE, $dto, null, null, self::password, self::folderName);
+            self::fileName, self::slideIndex, SpecialSlideType::LAYOUT_SLIDE, $dto, null, null, null, self::password, self::folderName);
         Assert::assertEquals($dto->getText(), $shape->getText());
         $shapes = $this->getSlidesApi()->GetSpecialSlideShapes(
             self::fileName, self::slideIndex, SpecialSlideType::LAYOUT_SLIDE, self::password, self::folderName);

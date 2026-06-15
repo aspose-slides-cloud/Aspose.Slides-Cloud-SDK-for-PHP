@@ -59,6 +59,7 @@ use Aspose\Slides\Cloud\Sdk\Model\Portion;
 use Aspose\Slides\Cloud\Sdk\Model\SolidFill;
 use Aspose\Slides\Cloud\Sdk\Model\ZoomFrame;
 use Aspose\Slides\Cloud\Sdk\Model\SectionZoomFrame;
+use Aspose\Slides\Cloud\Sdk\Model\ParagraphFormat;
 use Aspose\Slides\Cloud\Sdk\Tests\TestBase;
 
 class ShapeTest extends TestBase
@@ -148,7 +149,7 @@ class ShapeTest extends TestBase
         $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
         $dto = new Shape();
         $dto->setShapeType("Callout1");
-        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, self::password, self::folderName);
+        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, null, self::password, self::folderName);
         Assert::assertTrue(is_a($result, "Aspose\\Slides\\Cloud\\Sdk\\Model\\Shape"));
     }
 
@@ -165,7 +166,7 @@ class ShapeTest extends TestBase
         $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
         $dto = new Shape();
         try {
-            $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, self::password, self::folderName);
+            $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, null, self::password, self::folderName);
             Assert::fail("Must have failed");
         } catch (ApiException $ex) {
             //Cannot create shape with no ShapeType specified
@@ -178,7 +179,7 @@ class ShapeTest extends TestBase
         $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
         $dto = new GraphicalObject();
         try {
-            $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, self::password, self::folderName);
+            $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, null, self::password, self::folderName);
             Assert::fail("Must have failed");
         } catch (ApiException $ex) {
             //Cannot create a graphical object
@@ -193,7 +194,7 @@ class ShapeTest extends TestBase
         $format = new PictureFill();
         $format->setBase64Data("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXY5g+ffp/AAZTAsWGL27gAAAAAElFTkSuQmCC");
         $dto->setPictureFillFormat($format);
-        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, self::password, self::folderName);
+        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, null, self::password, self::folderName);
         Assert::assertTrue(is_a($result, "Aspose\\Slides\\Cloud\\Sdk\\Model\\PictureFrame"));
     }
 
@@ -202,7 +203,7 @@ class ShapeTest extends TestBase
         $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
         $dto = new PictureFrame();
         try {
-            $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, self::password, self::folderName);
+            $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, null, self::password, self::folderName);
             Assert::fail("Must have failed");
         } catch (ApiException $ex) {
             //Cannot create a picture with no data specified
@@ -215,7 +216,7 @@ class ShapeTest extends TestBase
         $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
         $dto = new AudioFrame();
         $dto->setBase64Data("bXAzc2FtcGxl");
-        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, self::password, self::folderName);
+        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, null, self::password, self::folderName);
         Assert::assertTrue(is_a($result, "Aspose\\Slides\\Cloud\\Sdk\\Model\\AudioFrame"));
     }
 
@@ -224,7 +225,7 @@ class ShapeTest extends TestBase
         $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
         $dto = new AudioFrame();
         try {
-            $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, self::password, self::folderName);
+            $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, null, self::password, self::folderName);
             Assert::fail("Must have failed");
         } catch (ApiException $ex) {
             //Cannot create an audio with no data specified
@@ -237,7 +238,7 @@ class ShapeTest extends TestBase
         $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
         $dto = new VideoFrame();
         $dto->setBase64Data("bXAzc2FtcGxl");
-        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, self::password, self::folderName);
+        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, null, self::password, self::folderName);
         Assert::assertTrue(is_a($result, "Aspose\\Slides\\Cloud\\Sdk\\Model\\VideoFrame"));
     }
 
@@ -246,7 +247,7 @@ class ShapeTest extends TestBase
         $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
         $dto = new VideoFrame();
         try {
-            $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, self::password, self::folderName);
+            $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, null, self::password, self::folderName);
             Assert::fail("Must have failed");
         } catch (ApiException $ex) {
             //Cannot create a video with no data specified
@@ -259,7 +260,7 @@ class ShapeTest extends TestBase
         $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
         $dto = new OleObjectFrame();
         try {
-            $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, self::password, self::folderName);
+            $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, null, self::password, self::folderName);
             Assert::fail("Must have failed");
         } catch (ApiException $ex) {
             //Cannot create an OleObjectFrame
@@ -289,7 +290,7 @@ class ShapeTest extends TestBase
         $node2->setText("Second");
         $node2->setOrgChartLayout("Initial");
         $dto->setNodes([ $node1, $node2 ]);
-        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, self::password, self::folderName);
+        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, null, self::password, self::folderName);
         Assert::assertTrue(is_a($result, "Aspose\\Slides\\Cloud\\Sdk\\Model\\SmartArt"));
     }
 
@@ -321,7 +322,7 @@ class ShapeTest extends TestBase
     {
         $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
         $dto = new SmartArt();
-        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, self::password, self::folderName);
+        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, null, self::password, self::folderName);
         Assert::assertTrue(is_a($result, "Aspose\\Slides\\Cloud\\Sdk\\Model\\SmartArt"));
     }
 
@@ -331,7 +332,7 @@ class ShapeTest extends TestBase
         $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
         $dto = new Chart();
         try {
-            $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, self::password, self::folderName);
+            $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, null, self::password, self::folderName);
             Assert::fail("Must have failed");
         } catch (ApiException $ex) {
             //Cannot create an empty chart
@@ -406,7 +407,7 @@ class ShapeTest extends TestBase
         $dto->setColumns([ $column1, $column2, $column3, $column4 ]);
         $dto->setFirstRow(true);
         $dto->setHorizontalBanding(true);
-        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, self::password, self::folderName);
+        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, null, self::password, self::folderName);
         Assert::assertTrue(is_a($result, "Aspose\\Slides\\Cloud\\Sdk\\Model\\Table"));
     }
 
@@ -415,7 +416,7 @@ class ShapeTest extends TestBase
         $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
         $dto = new Table();
         try {
-            $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, self::password, self::folderName);
+            $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, null, self::password, self::folderName);
             Assert::fail("Must have failed");
         } catch (ApiException $ex) {
             Assert::assertNotNull($ex);
@@ -427,7 +428,7 @@ class ShapeTest extends TestBase
     {
         $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
         $dto = new GroupShape();
-        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, self::password, self::folderName);
+        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, null, self::password, self::folderName);
         Assert::assertTrue(is_a($result, "Aspose\\Slides\\Cloud\\Sdk\\Model\\GroupShape"));
     }
 
@@ -441,7 +442,7 @@ class ShapeTest extends TestBase
         $uri2 = new ResourceUri();
         $uri2->setHref("https://api.aspose.cloud/v3.0/slides/myPresentation.pptx/slides/1/shapes/2");
         $dto->setEndShapeConnectedTo($uri2);
-        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, self::password, self::folderName);
+        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, null, self::password, self::folderName);
         Assert::assertTrue(is_a($result, "Aspose\\Slides\\Cloud\\Sdk\\Model\\Connector"));
     }
 
@@ -449,7 +450,7 @@ class ShapeTest extends TestBase
     {
         $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
         $dto = new Connector();
-        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, self::password, self::folderName);
+        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, null, self::password, self::folderName);
         Assert::assertTrue(is_a($result, "Aspose\\Slides\\Cloud\\Sdk\\Model\\Connector"));
     }
 
@@ -470,6 +471,7 @@ class ShapeTest extends TestBase
             self::fileName,
             1,
             $dto,
+            null,
             null,
             null,
             self::password,
@@ -749,6 +751,7 @@ class ShapeTest extends TestBase
             $dto,
             null,
             null,
+            null,
             self::password,
             self::folderName
         );
@@ -772,6 +775,7 @@ class ShapeTest extends TestBase
             self::fileName,
             self::slideIndex,
             $dto,
+            null,
             null,
             null,
             self::password,
@@ -800,6 +804,7 @@ class ShapeTest extends TestBase
             $dto,
             null,
             null,
+            null,
             self::password,
             self::folderName
         );
@@ -824,6 +829,7 @@ class ShapeTest extends TestBase
             self::fileName,
             self::slideIndex,
             $dto,
+            null,
             null,
             null,
             self::password,
@@ -855,6 +861,7 @@ class ShapeTest extends TestBase
             $dto,
             null,
             null,
+            null,
             self::password,
             self::folderName
         );
@@ -870,6 +877,7 @@ class ShapeTest extends TestBase
             self::fileName,
             5,
             $shape1,
+            null,
             null,
             null,
             self::password,
@@ -891,6 +899,7 @@ class ShapeTest extends TestBase
             $shape2,
             null,
             null,
+            null,
             self::password,
             self::folderName,
             null,
@@ -908,6 +917,7 @@ class ShapeTest extends TestBase
             self::fileName,
             5,
             $shape3,
+            null,
             null,
             null,
             self::password,
@@ -1025,6 +1035,29 @@ class ShapeTest extends TestBase
 
         $result = $this->getSlidesApi()->downloadShapeFromDto("png", $dto);
         Assert::assertTrue($result->isFile());
+    }
+
+    public function testSmartArtNodeDefaultParagraphFormat()
+    {
+        $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
+        $slideIndex = 7;
+        $existing = $this->getSlidesApi()->getShape(self::fileName, $slideIndex, self::smartArtIndex, self::password, self::folderName);
+        $paragraphFormat = new ParagraphFormat();
+        $bulletFill = new SolidFill();
+        $bulletFill->setColor("#FFFF0000");
+        $paragraphFormat->setBulletFillFormat($bulletFill);
+        $existing->getNodes()[0]->setDefaultParagraphFormat($paragraphFormat);
+        $updated = $this->getSlidesApi()->updateShape(self::fileName, $slideIndex, self::smartArtIndex, $existing, self::password, self::folderName);
+        Assert::assertNotNull($updated->getNodes()[0]->getDefaultParagraphFormat());
+        Assert::assertEquals("Solid", $updated->getNodes()[0]->getDefaultParagraphFormat()->getBulletFillFormat()->getType());
+        Assert::assertEquals("#FFFF0000", $updated->getNodes()[0]->getDefaultParagraphFormat()->getBulletFillFormat()->getColor());
+    }
+
+    public function testShapeCloneFromSlide()
+    {
+        $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
+        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, null, 1, 1, null, self::password, self::folderName);
+        Assert::assertNotNull($result);
     }
 
     public const svgFileName = "shapes.svg";

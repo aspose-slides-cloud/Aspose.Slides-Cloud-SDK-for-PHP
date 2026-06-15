@@ -4675,18 +4675,18 @@ class SlidesApi extends ApiBase
     }
     /**
      */
-    public function createShape($name, $slideIndex, \Aspose\Slides\Cloud\Sdk\Model\ShapeBase $dto = null, $shapeToClone = null, $position = null, $password = null, $folder = null, $storage = null, $subShape = null)
+    public function createShape($name, $slideIndex, \Aspose\Slides\Cloud\Sdk\Model\ShapeBase $dto = null, $shapeToClone = null, $cloneFromSlide = null, $position = null, $password = null, $folder = null, $storage = null, $subShape = null)
     {
-        list($response) = $this->createShapeWithHttpInfo($name, $slideIndex, $dto, $shapeToClone, $position, $password, $folder, $storage, $subShape);
+        list($response) = $this->createShapeWithHttpInfo($name, $slideIndex, $dto, $shapeToClone, $cloneFromSlide, $position, $password, $folder, $storage, $subShape);
         return $response;
     }
 
     /**
      */
-    public function createShapeWithHttpInfo($name, $slideIndex, \Aspose\Slides\Cloud\Sdk\Model\ShapeBase $dto = null, $shapeToClone = null, $position = null, $password = null, $folder = null, $storage = null, $subShape = null)
+    public function createShapeWithHttpInfo($name, $slideIndex, \Aspose\Slides\Cloud\Sdk\Model\ShapeBase $dto = null, $shapeToClone = null, $cloneFromSlide = null, $position = null, $password = null, $folder = null, $storage = null, $subShape = null)
     {
         $returnType = '\Aspose\Slides\Cloud\Sdk\Model\ShapeBase';
-        $httpRequest = $this->createShapeRequest($name, $slideIndex, $dto, $shapeToClone, $position, $password, $folder, $storage, $subShape);
+        $httpRequest = $this->createShapeRequest($name, $slideIndex, $dto, $shapeToClone, $cloneFromSlide, $position, $password, $folder, $storage, $subShape);
         try {
             $response = $this->httpCall($httpRequest);
             $responseBody = $response->getBody();
@@ -4713,9 +4713,9 @@ class SlidesApi extends ApiBase
 
     /**
      */
-    public function createShapeAsync($name, $slideIndex, \Aspose\Slides\Cloud\Sdk\Model\ShapeBase $dto = null, $shapeToClone = null, $position = null, $password = null, $folder = null, $storage = null, $subShape = null)
+    public function createShapeAsync($name, $slideIndex, \Aspose\Slides\Cloud\Sdk\Model\ShapeBase $dto = null, $shapeToClone = null, $cloneFromSlide = null, $position = null, $password = null, $folder = null, $storage = null, $subShape = null)
     {
-        return $this->createShapeAsyncWithHttpInfo($name, $slideIndex, $dto, $shapeToClone, $position, $password, $folder, $storage, $subShape)
+        return $this->createShapeAsyncWithHttpInfo($name, $slideIndex, $dto, $shapeToClone, $cloneFromSlide, $position, $password, $folder, $storage, $subShape)
             ->then(function ($response) {
                 return $response[0];
             });
@@ -4723,10 +4723,10 @@ class SlidesApi extends ApiBase
 
     /**
      */
-    public function createShapeAsyncWithHttpInfo($name, $slideIndex, \Aspose\Slides\Cloud\Sdk\Model\ShapeBase $dto = null, $shapeToClone = null, $position = null, $password = null, $folder = null, $storage = null, $subShape = null)
+    public function createShapeAsyncWithHttpInfo($name, $slideIndex, \Aspose\Slides\Cloud\Sdk\Model\ShapeBase $dto = null, $shapeToClone = null, $cloneFromSlide = null, $position = null, $password = null, $folder = null, $storage = null, $subShape = null)
     {
         $returnType = '\Aspose\Slides\Cloud\Sdk\Model\ShapeBase';
-        $httpRequest = $this->createShapeRequest($name, $slideIndex, $dto, $shapeToClone, $position, $password, $folder, $storage, $subShape);
+        $httpRequest = $this->createShapeRequest($name, $slideIndex, $dto, $shapeToClone, $cloneFromSlide, $position, $password, $folder, $storage, $subShape);
 
         return $this->client
             ->sendAsync($httpRequest, $this->createHttpClientOption())
@@ -4775,6 +4775,7 @@ class SlidesApi extends ApiBase
      * @param  int $$slideIndex Slide index. (required)
      * @param  \Aspose\Slides\Cloud\Sdk\Model\ShapeBase $$dto Shape DTO. (optional)
      * @param  int $$shapeToClone Optional index for clone shape instead of adding a new one. (optional)
+     * @param  int $$cloneFromSlide Optional index of the slide to clone the shape from. When set, shapeToClone refers to a shape on that slide. (optional)
      * @param  int $$position Position of the new shape in the list. Default is at the end of the list. (optional)
      * @param  string $$password Document password. (optional)
      * @param  string $$folder Document folder. (optional)
@@ -4784,7 +4785,7 @@ class SlidesApi extends ApiBase
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function createShapeRequest($name, $slideIndex, \Aspose\Slides\Cloud\Sdk\Model\ShapeBase $dto = null, $shapeToClone = null, $position = null, $password = null, $folder = null, $storage = null, $subShape = null)
+    protected function createShapeRequest($name, $slideIndex, \Aspose\Slides\Cloud\Sdk\Model\ShapeBase $dto = null, $shapeToClone = null, $cloneFromSlide = null, $position = null, $password = null, $folder = null, $storage = null, $subShape = null)
     {
         // verify the required parameter 'name' is set
         if ($name === null) {
@@ -4802,6 +4803,10 @@ class SlidesApi extends ApiBase
         // query params
         if ($shapeToClone !== null) {
             $queryParams['shapeToClone'] = ObjectSerializer::toQueryValue($shapeToClone);
+        }
+        // query params
+        if ($cloneFromSlide !== null) {
+            $queryParams['cloneFromSlide'] = ObjectSerializer::toQueryValue($cloneFromSlide);
         }
         // query params
         if ($position !== null) {
@@ -6013,18 +6018,18 @@ class SlidesApi extends ApiBase
     }
     /**
      */
-    public function createSpecialSlideShape($name, $slideIndex, $slideType, \Aspose\Slides\Cloud\Sdk\Model\ShapeBase $dto, $shapeToClone = null, $position = null, $password = null, $folder = null, $storage = null, $subShape = null)
+    public function createSpecialSlideShape($name, $slideIndex, $slideType, \Aspose\Slides\Cloud\Sdk\Model\ShapeBase $dto, $shapeToClone = null, $cloneFromSlide = null, $position = null, $password = null, $folder = null, $storage = null, $subShape = null)
     {
-        list($response) = $this->createSpecialSlideShapeWithHttpInfo($name, $slideIndex, $slideType, $dto, $shapeToClone, $position, $password, $folder, $storage, $subShape);
+        list($response) = $this->createSpecialSlideShapeWithHttpInfo($name, $slideIndex, $slideType, $dto, $shapeToClone, $cloneFromSlide, $position, $password, $folder, $storage, $subShape);
         return $response;
     }
 
     /**
      */
-    public function createSpecialSlideShapeWithHttpInfo($name, $slideIndex, $slideType, \Aspose\Slides\Cloud\Sdk\Model\ShapeBase $dto, $shapeToClone = null, $position = null, $password = null, $folder = null, $storage = null, $subShape = null)
+    public function createSpecialSlideShapeWithHttpInfo($name, $slideIndex, $slideType, \Aspose\Slides\Cloud\Sdk\Model\ShapeBase $dto, $shapeToClone = null, $cloneFromSlide = null, $position = null, $password = null, $folder = null, $storage = null, $subShape = null)
     {
         $returnType = '\Aspose\Slides\Cloud\Sdk\Model\ShapeBase';
-        $httpRequest = $this->createSpecialSlideShapeRequest($name, $slideIndex, $slideType, $dto, $shapeToClone, $position, $password, $folder, $storage, $subShape);
+        $httpRequest = $this->createSpecialSlideShapeRequest($name, $slideIndex, $slideType, $dto, $shapeToClone, $cloneFromSlide, $position, $password, $folder, $storage, $subShape);
         try {
             $response = $this->httpCall($httpRequest);
             $responseBody = $response->getBody();
@@ -6051,9 +6056,9 @@ class SlidesApi extends ApiBase
 
     /**
      */
-    public function createSpecialSlideShapeAsync($name, $slideIndex, $slideType, \Aspose\Slides\Cloud\Sdk\Model\ShapeBase $dto, $shapeToClone = null, $position = null, $password = null, $folder = null, $storage = null, $subShape = null)
+    public function createSpecialSlideShapeAsync($name, $slideIndex, $slideType, \Aspose\Slides\Cloud\Sdk\Model\ShapeBase $dto, $shapeToClone = null, $cloneFromSlide = null, $position = null, $password = null, $folder = null, $storage = null, $subShape = null)
     {
-        return $this->createSpecialSlideShapeAsyncWithHttpInfo($name, $slideIndex, $slideType, $dto, $shapeToClone, $position, $password, $folder, $storage, $subShape)
+        return $this->createSpecialSlideShapeAsyncWithHttpInfo($name, $slideIndex, $slideType, $dto, $shapeToClone, $cloneFromSlide, $position, $password, $folder, $storage, $subShape)
             ->then(function ($response) {
                 return $response[0];
             });
@@ -6061,10 +6066,10 @@ class SlidesApi extends ApiBase
 
     /**
      */
-    public function createSpecialSlideShapeAsyncWithHttpInfo($name, $slideIndex, $slideType, \Aspose\Slides\Cloud\Sdk\Model\ShapeBase $dto, $shapeToClone = null, $position = null, $password = null, $folder = null, $storage = null, $subShape = null)
+    public function createSpecialSlideShapeAsyncWithHttpInfo($name, $slideIndex, $slideType, \Aspose\Slides\Cloud\Sdk\Model\ShapeBase $dto, $shapeToClone = null, $cloneFromSlide = null, $position = null, $password = null, $folder = null, $storage = null, $subShape = null)
     {
         $returnType = '\Aspose\Slides\Cloud\Sdk\Model\ShapeBase';
-        $httpRequest = $this->createSpecialSlideShapeRequest($name, $slideIndex, $slideType, $dto, $shapeToClone, $position, $password, $folder, $storage, $subShape);
+        $httpRequest = $this->createSpecialSlideShapeRequest($name, $slideIndex, $slideType, $dto, $shapeToClone, $cloneFromSlide, $position, $password, $folder, $storage, $subShape);
 
         return $this->client
             ->sendAsync($httpRequest, $this->createHttpClientOption())
@@ -6114,6 +6119,7 @@ class SlidesApi extends ApiBase
      * @param  string $$slideType Slide type (master, layout or notes). (required)
      * @param  \Aspose\Slides\Cloud\Sdk\Model\ShapeBase $$dto Shape DTO. (required)
      * @param  int $$shapeToClone Optional index for clone shape instead of adding a new one. (optional)
+     * @param  int $$cloneFromSlide Optional index of the slide to clone the shape from. When set, shapeToClone refers to a shape on that slide. (optional)
      * @param  int $$position Position of the new shape in the list. Default is at the end of the list. (optional)
      * @param  string $$password Document password. (optional)
      * @param  string $$folder Document folder. (optional)
@@ -6123,7 +6129,7 @@ class SlidesApi extends ApiBase
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function createSpecialSlideShapeRequest($name, $slideIndex, $slideType, \Aspose\Slides\Cloud\Sdk\Model\ShapeBase $dto, $shapeToClone = null, $position = null, $password = null, $folder = null, $storage = null, $subShape = null)
+    protected function createSpecialSlideShapeRequest($name, $slideIndex, $slideType, \Aspose\Slides\Cloud\Sdk\Model\ShapeBase $dto, $shapeToClone = null, $cloneFromSlide = null, $position = null, $password = null, $folder = null, $storage = null, $subShape = null)
     {
         // verify the required parameter 'name' is set
         if ($name === null) {
@@ -6153,6 +6159,10 @@ class SlidesApi extends ApiBase
         // query params
         if ($shapeToClone !== null) {
             $queryParams['shapeToClone'] = ObjectSerializer::toQueryValue($shapeToClone);
+        }
+        // query params
+        if ($cloneFromSlide !== null) {
+            $queryParams['cloneFromSlide'] = ObjectSerializer::toQueryValue($cloneFromSlide);
         }
         // query params
         if ($position !== null) {
@@ -29058,6 +29068,199 @@ class SlidesApi extends ApiBase
     }
     /**
      */
+    public function importChartFromWorkbook($name, $slideIndex, $worksheetName, $document = null, $chartName = null, $chartIndex = null, $x = null, $y = null, $embedAllWorkbook = null, $workbookPath = null, $workbookStorage = null, $password = null, $folder = null, $storage = null)
+    {
+        list($response) = $this->importChartFromWorkbookWithHttpInfo($name, $slideIndex, $worksheetName, $document, $chartName, $chartIndex, $x, $y, $embedAllWorkbook, $workbookPath, $workbookStorage, $password, $folder, $storage);
+        return $response;
+    }
+
+    /**
+     */
+    public function importChartFromWorkbookWithHttpInfo($name, $slideIndex, $worksheetName, $document = null, $chartName = null, $chartIndex = null, $x = null, $y = null, $embedAllWorkbook = null, $workbookPath = null, $workbookStorage = null, $password = null, $folder = null, $storage = null)
+    {
+        $returnType = '\Aspose\Slides\Cloud\Sdk\Model\ShapeBase';
+        $httpRequest = $this->importChartFromWorkbookRequest($name, $slideIndex, $worksheetName, $document, $chartName, $chartIndex, $x, $y, $embedAllWorkbook, $workbookPath, $workbookStorage, $password, $folder, $storage);
+        try {
+            $response = $this->httpCall($httpRequest);
+            $responseBody = $response->getBody();
+            $content = $responseBody->getContents();
+            if ($returnType !== 'string') {
+                $content = json_decode($content);
+            }
+            $deserializedContent = ObjectSerializer::deserialize($content, $returnType, []);
+            if ($this->config->getDebug()) {
+                $this->writeResponseLog($response->getStatusCode(), $response->getHeaders(), $deserializedContent);
+            }
+            return [$deserializedContent, $response->getStatusCode(), $response->getHeaders()];
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\Aspose\Slides\Cloud\Sdk\Model\ShapeBase', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                default: $this->handleApiException($e);
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     */
+    public function importChartFromWorkbookAsync($name, $slideIndex, $worksheetName, $document = null, $chartName = null, $chartIndex = null, $x = null, $y = null, $embedAllWorkbook = null, $workbookPath = null, $workbookStorage = null, $password = null, $folder = null, $storage = null)
+    {
+        return $this->importChartFromWorkbookAsyncWithHttpInfo($name, $slideIndex, $worksheetName, $document, $chartName, $chartIndex, $x, $y, $embedAllWorkbook, $workbookPath, $workbookStorage, $password, $folder, $storage)
+            ->then(function ($response) {
+                return $response[0];
+            });
+    }
+
+    /**
+     */
+    public function importChartFromWorkbookAsyncWithHttpInfo($name, $slideIndex, $worksheetName, $document = null, $chartName = null, $chartIndex = null, $x = null, $y = null, $embedAllWorkbook = null, $workbookPath = null, $workbookStorage = null, $password = null, $folder = null, $storage = null)
+    {
+        $returnType = '\Aspose\Slides\Cloud\Sdk\Model\ShapeBase';
+        $httpRequest = $this->importChartFromWorkbookRequest($name, $slideIndex, $worksheetName, $document, $chartName, $chartIndex, $x, $y, $embedAllWorkbook, $workbookPath, $workbookStorage, $password, $folder, $storage);
+
+        return $this->client
+            ->sendAsync($httpRequest, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    $responseBody = $response->getBody();
+                    if ($returnType === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+                    if ($this->config->getDebug()) {
+                        $this->writeResponseLog(
+                            $response->getStatusCode(),
+                            $response->getHeaders(),
+                            ObjectSerializer::deserialize($content, $returnType, []));
+                    }
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    if ($exception instanceof RepeatRequestException) {
+                        $this->refreshToken();
+                        throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
+                    }
+                    throw new ApiException(
+                        sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()),
+                        $statusCode,
+                        $response->getHeaders(),
+                        $response->getBody());
+                });
+    }
+
+    /**
+     * Create request for operation 'importChartFromWorkbook'
+     *
+     * @param  string $$name Document name. (required)
+     * @param  int $$slideIndex Slide index. (required)
+     * @param  string $$worksheetName The name of the worksheet that contains the chart. (required)
+     * @param  \SplFileObject $$document Excel workbook data. (optional)
+     * @param  string $$chartName The name of the chart. Required if chartIndex is not specified. (optional)
+     * @param  int $$chartIndex The zero-based index of the chart in the worksheet. Takes precedence over chartName. (optional)
+     * @param  float $$x X coordinate of the chart (EMU). (optional, default to 0.0)
+     * @param  float $$y Y coordinate of the chart (EMU). (optional, default to 0.0)
+     * @param  bool $$embedAllWorkbook If true, the entire workbook is embedded; if false, only chart data. (optional, default to true)
+     * @param  string $$workbookPath Storage path to the workbook. If omitted, the workbook must be uploaded as multipart form data. (optional)
+     * @param  string $$workbookStorage Storage name for workbookPath. (optional)
+     * @param  string $$password Document password. (optional)
+     * @param  string $$folder Presentation folder. (optional)
+     * @param  string $$storage Presentation storage. (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function importChartFromWorkbookRequest($name, $slideIndex, $worksheetName, $document = null, $chartName = null, $chartIndex = null, $x = null, $y = null, $embedAllWorkbook = null, $workbookPath = null, $workbookStorage = null, $password = null, $folder = null, $storage = null)
+    {
+        // verify the required parameter 'name' is set
+        if ($name === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $name when calling importChartFromWorkbook');
+        }
+        // verify the required parameter 'slide_index' is set
+        if ($slideIndex === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $slideIndex when calling importChartFromWorkbook');
+        }
+        // verify the required parameter 'worksheet_name' is set
+        if ($worksheetName === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $worksheetName when calling importChartFromWorkbook');
+        }
+
+        $resourcePath = '/slides/{name}/slides/{slideIndex}/shapes/fromExcelChart';
+        $queryParams = [];
+        $headerParams = [];
+
+        // query params
+        if ($worksheetName !== null) {
+            $queryParams['worksheetName'] = ObjectSerializer::toQueryValue($worksheetName);
+        }
+        // query params
+        if ($chartName !== null) {
+            $queryParams['chartName'] = ObjectSerializer::toQueryValue($chartName);
+        }
+        // query params
+        if ($chartIndex !== null) {
+            $queryParams['chartIndex'] = ObjectSerializer::toQueryValue($chartIndex);
+        }
+        // query params
+        if ($x !== null) {
+            $queryParams['x'] = ObjectSerializer::toQueryValue($x);
+        }
+        // query params
+        if ($y !== null) {
+            $queryParams['y'] = ObjectSerializer::toQueryValue($y);
+        }
+        // query params
+        if ($embedAllWorkbook !== null) {
+            $queryParams['embedAllWorkbook'] = ObjectSerializer::toQueryValue($embedAllWorkbook);
+        }
+        // query params
+        if ($workbookPath !== null) {
+            $queryParams['workbookPath'] = ObjectSerializer::toQueryValue($workbookPath);
+        }
+        // query params
+        if ($workbookStorage !== null) {
+            $queryParams['workbookStorage'] = ObjectSerializer::toQueryValue($workbookStorage);
+        }
+        // query params
+        if ($folder !== null) {
+            $queryParams['folder'] = ObjectSerializer::toQueryValue($folder);
+        }
+        // query params
+        if ($storage !== null) {
+            $queryParams['storage'] = ObjectSerializer::toQueryValue($storage);
+        }
+        // header params
+        if ($password !== null) {
+            $headerParams['password'] = ObjectSerializer::toHeaderValue($password);
+        }
+
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "name", $name);
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "slideIndex", $slideIndex);
+        $_tempBody = [];
+        if (isset($document)) {
+            array_push($_tempBody, $document);
+        }
+        $this->headerSelector->selectHeaders(
+            $headerParams,
+            ['application/json'],
+            ['multipart/form-data']);
+        $httpBody = ObjectSerializer::createBody($_tempBody);
+        return $this->createRequest($resourcePath, $queryParams, $headerParams, $httpBody, 'POST');
+    }
+    /**
+     */
     public function importFromHtml($name, $html = null, $password = null, $folder = null, $storage = null, $position = null, $useSlideWithIndexAsStart = null)
     {
         list($response) = $this->importFromHtmlWithHttpInfo($name, $html, $password, $folder, $storage, $position, $useSlideWithIndexAsStart);
@@ -29539,6 +29742,193 @@ class SlidesApi extends ApiBase
         $_tempBody = [];
         if (isset($image)) {
             array_push($_tempBody, $image);
+        }
+        $this->headerSelector->selectHeaders(
+            $headerParams,
+            ['application/json'],
+            ['multipart/form-data']);
+        $httpBody = ObjectSerializer::createBody($_tempBody);
+        return $this->createRequest($resourcePath, $queryParams, $headerParams, $httpBody, 'POST');
+    }
+    /**
+     */
+    public function importTableFromWorkbook($name, $slideIndex, $worksheetName, $cellRange, $document = null, $x = null, $y = null, $workbookPath = null, $workbookStorage = null, $password = null, $folder = null, $storage = null)
+    {
+        list($response) = $this->importTableFromWorkbookWithHttpInfo($name, $slideIndex, $worksheetName, $cellRange, $document, $x, $y, $workbookPath, $workbookStorage, $password, $folder, $storage);
+        return $response;
+    }
+
+    /**
+     */
+    public function importTableFromWorkbookWithHttpInfo($name, $slideIndex, $worksheetName, $cellRange, $document = null, $x = null, $y = null, $workbookPath = null, $workbookStorage = null, $password = null, $folder = null, $storage = null)
+    {
+        $returnType = '\Aspose\Slides\Cloud\Sdk\Model\ShapeBase';
+        $httpRequest = $this->importTableFromWorkbookRequest($name, $slideIndex, $worksheetName, $cellRange, $document, $x, $y, $workbookPath, $workbookStorage, $password, $folder, $storage);
+        try {
+            $response = $this->httpCall($httpRequest);
+            $responseBody = $response->getBody();
+            $content = $responseBody->getContents();
+            if ($returnType !== 'string') {
+                $content = json_decode($content);
+            }
+            $deserializedContent = ObjectSerializer::deserialize($content, $returnType, []);
+            if ($this->config->getDebug()) {
+                $this->writeResponseLog($response->getStatusCode(), $response->getHeaders(), $deserializedContent);
+            }
+            return [$deserializedContent, $response->getStatusCode(), $response->getHeaders()];
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\Aspose\Slides\Cloud\Sdk\Model\ShapeBase', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                default: $this->handleApiException($e);
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     */
+    public function importTableFromWorkbookAsync($name, $slideIndex, $worksheetName, $cellRange, $document = null, $x = null, $y = null, $workbookPath = null, $workbookStorage = null, $password = null, $folder = null, $storage = null)
+    {
+        return $this->importTableFromWorkbookAsyncWithHttpInfo($name, $slideIndex, $worksheetName, $cellRange, $document, $x, $y, $workbookPath, $workbookStorage, $password, $folder, $storage)
+            ->then(function ($response) {
+                return $response[0];
+            });
+    }
+
+    /**
+     */
+    public function importTableFromWorkbookAsyncWithHttpInfo($name, $slideIndex, $worksheetName, $cellRange, $document = null, $x = null, $y = null, $workbookPath = null, $workbookStorage = null, $password = null, $folder = null, $storage = null)
+    {
+        $returnType = '\Aspose\Slides\Cloud\Sdk\Model\ShapeBase';
+        $httpRequest = $this->importTableFromWorkbookRequest($name, $slideIndex, $worksheetName, $cellRange, $document, $x, $y, $workbookPath, $workbookStorage, $password, $folder, $storage);
+
+        return $this->client
+            ->sendAsync($httpRequest, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    $responseBody = $response->getBody();
+                    if ($returnType === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+                    if ($this->config->getDebug()) {
+                        $this->writeResponseLog(
+                            $response->getStatusCode(),
+                            $response->getHeaders(),
+                            ObjectSerializer::deserialize($content, $returnType, []));
+                    }
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    if ($exception instanceof RepeatRequestException) {
+                        $this->refreshToken();
+                        throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
+                    }
+                    throw new ApiException(
+                        sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()),
+                        $statusCode,
+                        $response->getHeaders(),
+                        $response->getBody());
+                });
+    }
+
+    /**
+     * Create request for operation 'importTableFromWorkbook'
+     *
+     * @param  string $$name Document name. (required)
+     * @param  int $$slideIndex Slide index. (required)
+     * @param  string $$worksheetName The name of the worksheet that contains the table. (required)
+     * @param  string $$cellRange The cell range that defines the table (e.g. \&quot;A1:D10\&quot;). (required)
+     * @param  \SplFileObject $$document Excel workbook data. (optional)
+     * @param  float $$x X coordinate of the table (EMU). (optional, default to 0.0)
+     * @param  float $$y Y coordinate of the table (EMU). (optional, default to 0.0)
+     * @param  string $$workbookPath Storage path to the workbook. If omitted, the workbook must be uploaded as multipart form data. (optional)
+     * @param  string $$workbookStorage Storage name for workbookPath. (optional)
+     * @param  string $$password Document password. (optional)
+     * @param  string $$folder Presentation folder. (optional)
+     * @param  string $$storage Presentation storage. (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function importTableFromWorkbookRequest($name, $slideIndex, $worksheetName, $cellRange, $document = null, $x = null, $y = null, $workbookPath = null, $workbookStorage = null, $password = null, $folder = null, $storage = null)
+    {
+        // verify the required parameter 'name' is set
+        if ($name === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $name when calling importTableFromWorkbook');
+        }
+        // verify the required parameter 'slide_index' is set
+        if ($slideIndex === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $slideIndex when calling importTableFromWorkbook');
+        }
+        // verify the required parameter 'worksheet_name' is set
+        if ($worksheetName === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $worksheetName when calling importTableFromWorkbook');
+        }
+        // verify the required parameter 'cell_range' is set
+        if ($cellRange === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $cellRange when calling importTableFromWorkbook');
+        }
+
+        $resourcePath = '/slides/{name}/slides/{slideIndex}/shapes/fromExcelTable';
+        $queryParams = [];
+        $headerParams = [];
+
+        // query params
+        if ($worksheetName !== null) {
+            $queryParams['worksheetName'] = ObjectSerializer::toQueryValue($worksheetName);
+        }
+        // query params
+        if ($cellRange !== null) {
+            $queryParams['cellRange'] = ObjectSerializer::toQueryValue($cellRange);
+        }
+        // query params
+        if ($x !== null) {
+            $queryParams['x'] = ObjectSerializer::toQueryValue($x);
+        }
+        // query params
+        if ($y !== null) {
+            $queryParams['y'] = ObjectSerializer::toQueryValue($y);
+        }
+        // query params
+        if ($workbookPath !== null) {
+            $queryParams['workbookPath'] = ObjectSerializer::toQueryValue($workbookPath);
+        }
+        // query params
+        if ($workbookStorage !== null) {
+            $queryParams['workbookStorage'] = ObjectSerializer::toQueryValue($workbookStorage);
+        }
+        // query params
+        if ($folder !== null) {
+            $queryParams['folder'] = ObjectSerializer::toQueryValue($folder);
+        }
+        // query params
+        if ($storage !== null) {
+            $queryParams['storage'] = ObjectSerializer::toQueryValue($storage);
+        }
+        // header params
+        if ($password !== null) {
+            $headerParams['password'] = ObjectSerializer::toHeaderValue($password);
+        }
+
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "name", $name);
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "slideIndex", $slideIndex);
+        $_tempBody = [];
+        if (isset($document)) {
+            array_push($_tempBody, $document);
         }
         $this->headerSelector->selectHeaders(
             $headerParams,

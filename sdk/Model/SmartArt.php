@@ -59,7 +59,8 @@ class SmartArt extends ShapeBase
         'quickStyle' => 'string',
         'colorStyle' => 'string',
         'nodes' => '\Aspose\Slides\Cloud\Sdk\Model\SmartArtNode[]',
-        'isReversed' => 'bool'
+        'isReversed' => 'bool',
+        'defaultParagraphFormat' => '\Aspose\Slides\Cloud\Sdk\Model\ParagraphFormat'
     ];
 
     /**
@@ -72,7 +73,8 @@ class SmartArt extends ShapeBase
         'quickStyle' => null,
         'colorStyle' => null,
         'nodes' => null,
-        'isReversed' => null
+        'isReversed' => null,
+        'defaultParagraphFormat' => null
     ];
 
     /**
@@ -106,7 +108,8 @@ class SmartArt extends ShapeBase
         'quickStyle' => 'QuickStyle',
         'colorStyle' => 'ColorStyle',
         'nodes' => 'Nodes',
-        'isReversed' => 'IsReversed'
+        'isReversed' => 'IsReversed',
+        'defaultParagraphFormat' => 'DefaultParagraphFormat'
     ];
 
     /**
@@ -119,7 +122,8 @@ class SmartArt extends ShapeBase
         'quickStyle' => 'setQuickStyle',
         'colorStyle' => 'setColorStyle',
         'nodes' => 'setNodes',
-        'isReversed' => 'setIsReversed'
+        'isReversed' => 'setIsReversed',
+        'defaultParagraphFormat' => 'setDefaultParagraphFormat'
     ];
 
     /**
@@ -132,7 +136,8 @@ class SmartArt extends ShapeBase
         'quickStyle' => 'getQuickStyle',
         'colorStyle' => 'getColorStyle',
         'nodes' => 'getNodes',
-        'isReversed' => 'getIsReversed'
+        'isReversed' => 'getIsReversed',
+        'defaultParagraphFormat' => 'getDefaultParagraphFormat'
     ];
 
     /**
@@ -605,6 +610,7 @@ class SmartArt extends ShapeBase
         $this->container['colorStyle'] = isset($data['colorStyle']) ? $data['colorStyle'] : null;
         $this->container['nodes'] = isset($data['nodes']) ? $data['nodes'] : null;
         $this->container['isReversed'] = isset($data['isReversed']) ? $data['isReversed'] : null;
+        $this->container['defaultParagraphFormat'] = isset($data['defaultParagraphFormat']) ? $data['defaultParagraphFormat'] : null;
         $this->container['type'] = 'SmartArt';
         
     }
@@ -876,6 +882,30 @@ class SmartArt extends ShapeBase
     public function setIsReversed($isReversed)
     {
         $this->container['isReversed'] = $isReversed;
+
+        return $this;
+    }
+
+    /**
+     * Gets defaultParagraphFormat
+     *
+     * @return \Aspose\Slides\Cloud\Sdk\Model\ParagraphFormat
+     */
+    public function getDefaultParagraphFormat()
+    {
+        return $this->container['defaultParagraphFormat'];
+    }
+
+    /**
+     * Sets defaultParagraphFormat
+     *
+     * @param \Aspose\Slides\Cloud\Sdk\Model\ParagraphFormat $defaultParagraphFormat Default paragraph format applied to all nodes. Write-only: not populated on read since there is no corresponding property at the SmartArt shape level in Aspose.Slides.
+     *
+     * @return $this
+     */
+    public function setDefaultParagraphFormat($defaultParagraphFormat)
+    {
+        $this->container['defaultParagraphFormat'] = $defaultParagraphFormat;
 
         return $this;
     }

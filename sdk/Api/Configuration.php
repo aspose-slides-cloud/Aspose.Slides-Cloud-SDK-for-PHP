@@ -77,12 +77,19 @@ class Configuration
     protected $host = 'https://api.aspose.cloud';
 
     /*
-     * The host
+     * The host for authentication requests. Defaults to $host if not explicitly set.
      *
-     * @var string
+     * @var string|null
      */
-    protected $authHost = 'https://api.aspose.cloud';
-	
+    protected $authHost = null;
+
+    /*
+     * The host for async API requests. Defaults to $host if not explicitly set.
+     *
+     * @var string|null
+     */
+    protected $asyncHost = null;
+
     /*
      * Version of API to use, possible values are v1, v1.1, v2, v3
      * default value is v1
@@ -96,6 +103,14 @@ class Configuration
      * @var string
      */
     protected $userAgent = "php sdk";
+
+    /*
+     * Custom logger callable. When set, called for each debug log message instead of writing to debugFile.
+     * Signature: function(string $message): void
+     *
+     * @var callable|null
+     */
+    protected $logger = null;
 
     /*
      * Debug switch (default set to false)
@@ -143,7 +158,7 @@ class Configuration
      * Version of Aspose.Slides Cloud API
      *
      */
-    protected $clientVersion = '26.1.0';
+    protected $clientVersion = '26.6.0';
 
     /*
      * Constructor
@@ -300,9 +315,9 @@ class Configuration
     }
 
     /*
-     * Sets the host
+     * Sets the auth host
      *
-     * @param string $host Host
+     * @param string $authHost Auth Host
      *
      * @return $this
      */
@@ -313,15 +328,38 @@ class Configuration
     }
 
     /*
-     * Gets the host
+     * Gets the auth host. Falls back to host if not explicitly set.
      *
-     * @return string Host
+     * @return string Auth Host
      */
     public function getAuthHost()
     {
-        return $this->authHost;
+        return $this->authHost !== null ? $this->authHost : $this->host;
     }
-	
+
+    /*
+     * Sets the async host
+     *
+     * @param string $asyncHost Async Host
+     *
+     * @return $this
+     */
+    public function setAsyncHost($asyncHost)
+    {
+        $this->asyncHost = $asyncHost;
+        return $this;
+    }
+
+    /*
+     * Gets the async host. Falls back to host if not explicitly set.
+     *
+     * @return string Async Host
+     */
+    public function getAsyncHost()
+    {
+        return $this->asyncHost !== null ? $this->asyncHost : $this->host;
+    }
+
     /*
      * Sets the base_path
      *
@@ -443,6 +481,30 @@ class Configuration
     }
 
     /*
+     * Sets a custom logger callable used when debug mode is enabled.
+     * When set, the callable receives each log message instead of output being written to debugFile.
+     *
+     * @param callable $logger function(string $message): void
+     *
+     * @return $this
+     */
+    public function setLogger(callable $logger)
+    {
+        $this->logger = $logger;
+        return $this;
+    }
+
+    /*
+     * Gets the custom logger callable
+     *
+     * @return callable|null
+     */
+    public function getLogger()
+    {
+        return $this->logger;
+    }
+
+    /*
      * Sets the debug file
      *
      * @param string $debugFile Debug file
@@ -544,7 +606,7 @@ class Configuration
         $report  = 'PHP SDK (Aspose\Slides) Debug Report:' . PHP_EOL;
         $report .= '    OS: ' . php_uname() . PHP_EOL;
         $report .= '    PHP Version: ' . PHP_VERSION . PHP_EOL;
-        $report .= '    OpenAPI Spec Version: 26.1.0' . PHP_EOL;
+        $report .= '    OpenAPI Spec Version: 26.6.0' . PHP_EOL;
         $report .= '    Temp Folder Path: ' . self::getDefaultConfiguration()->getTempFolderPath() . PHP_EOL;
 
         return $report;

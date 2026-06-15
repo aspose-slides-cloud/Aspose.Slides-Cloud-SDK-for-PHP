@@ -78,7 +78,7 @@ class NullableFieldTest extends TestBase
         $testAxis->setMaxValue($max1);
         $testAxes->setHorizontalAxis($testAxis);
         $testDto->setAxes($testAxes);
-        $result = $this->getSlidesApi()->createShape(self::fileName, 1, $testDto, null, null, self::password, self::folderName);
+        $result = $this->getSlidesApi()->createShape(self::fileName, 1, $testDto, null, null, null, self::password, self::folderName);
 
         $result = $this->getSlidesApi()->getShape(self::fileName, 1, 5, self::password, self::folderName);
         Assert::assertTrue($result->getAxes()->getHorizontalAxis()->getMinValue() == $min1);

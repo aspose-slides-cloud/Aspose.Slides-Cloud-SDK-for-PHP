@@ -175,7 +175,7 @@ class ImageTest extends TestBase
     }
 
     public const format = 'png';
-    public const slideIndex = 1;
+    public const slideIndex = 2;
     public const imageIndex = 1;
     public const imagePath = self::localFolderName."/watermark.png";
 }

@@ -99,6 +99,7 @@ class TextFormatTest extends TestBase
             $dto,
             null,
             null,
+            null,
             self::password,
             self::folderName
         );
@@ -136,6 +137,7 @@ class TextFormatTest extends TestBase
             self::fileName,
             self::slideIndex,
             $dto,
+            null,
             null,
             null,
             self::password,

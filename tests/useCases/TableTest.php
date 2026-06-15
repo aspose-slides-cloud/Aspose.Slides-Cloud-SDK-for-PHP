@@ -492,6 +492,29 @@ class TableTest extends TestBase
         Assert::assertEquals(count($response->getItems()), 1);
     }
 
+    public function testImportTableFromWorkbook()
+    {
+        $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
+        $file = fopen(self::localFolderName . "/oleObject.xlsx", 'r');
+        $result = $this->getSlidesApi()->importTableFromWorkbook(
+            self::fileName, self::slideIndex, "Sheet1", "A1:B5", $file,
+            null, null, null, null, self::password, self::folderName);
+        Assert::assertNotNull($result);
+        Assert::assertEquals("Table", $result->getType());
+    }
+
+    public function testImportTableFromWorkbookByPath()
+    {
+        $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
+        $file = fopen(self::localFolderName . "/oleObject.xlsx", 'r');
+        $this->getSlidesApi()->uploadFile(self::folderName . "/oleObject.xlsx", $file);
+        $result = $this->getSlidesApi()->importTableFromWorkbook(
+            self::fileName, self::slideIndex, "Sheet1", "A1:B5", null,
+            null, null, self::folderName . "/oleObject.xlsx", null, self::password, self::folderName);
+        Assert::assertNotNull($result);
+        Assert::assertEquals("Table", $result->getType());
+    }
+
     public const sourceFileName = "TemplateCV.pptx";
     public const slideIndex = 9;
     public const shapeIndex = 1;

@@ -93,7 +93,7 @@ class ChartTest extends TestBase
         $dataPoint23->setValue(90);
         $series2->setDataPoints([ $dataPoint21, $dataPoint22, $dataPoint23 ]);
         $dto->setSeries([ $series1, $series2 ]);
-        $result = $this->getSlidesApi()->createShape(self::fileName, 1, $dto, null, null, self::password, self::folderName);
+        $result = $this->getSlidesApi()->createShape(self::fileName, 1, $dto, null, null, null, self::password, self::folderName);
         Assert::assertEquals(2, count($result->getSeries()));
         Assert::assertEquals(3, count($result->getCategories()));
     }
@@ -165,7 +165,7 @@ class ChartTest extends TestBase
         $dataPoint23->setValue(90);
         $series2->setDataPoints([ $dataPoint21, $dataPoint22, $dataPoint23 ]);
         $dto->setSeries([ $series1, $series2 ]);
-        $result = $this->getSlidesApi()->createShape(self::fileName, 1, $dto, null, null, self::password, self::folderName);
+        $result = $this->getSlidesApi()->createShape(self::fileName, 1, $dto, null, null, null, self::password, self::folderName);
         Assert::assertEquals(2, count($result->getSeries()));
         Assert::assertEquals(3, count($result->getCategories()));
     }
@@ -222,7 +222,7 @@ class ChartTest extends TestBase
         $dataPoint23->setValue(90);
         $series2->setDataPoints([ $dataPoint21, $dataPoint22, $dataPoint23 ]);
         $dto->setSeries([ $series1, $series2 ]);
-        $result = $this->getSlidesApi()->createShape(self::fileName, 1, $dto, null, null, self::password, self::folderName);
+        $result = $this->getSlidesApi()->createShape(self::fileName, 1, $dto, null, null, null, self::password, self::folderName);
         Assert::assertEquals(2, count($result->getSeries()));
         Assert::assertEquals(3, count($result->getCategories()));
     }
@@ -429,7 +429,7 @@ class ChartTest extends TestBase
         $dataPoint4->setValue(80);
         $series1->setDataPoints([ $dataPoint1, $dataPoint2, $dataPoint3, $dataPoint4 ]);
         $dto->setSeries([ $series1 ]);
-        $result = $this->getSlidesApi()->createShape(self::fileName, 1, $dto, null, null, self::password, self::folderName);
+        $result = $this->getSlidesApi()->createShape(self::fileName, 1, $dto, null, null, null, self::password, self::folderName);
         Assert::assertEquals(1, count($result->getSeries()));
         Assert::assertEquals(4, count($result->getCategories()));
     }
@@ -496,7 +496,7 @@ class ChartTest extends TestBase
 
         $dto->setCategories([$category1, $category2, $category3, $category4, $category5, $category6, $category7, $category8]);
 
-        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, self::password, self::folderName);
+        $result = $this->getSlidesApi()->createShape(self::fileName, self::slideIndex, $dto, null, null, null, self::password, self::folderName);
 
         Assert::assertEquals(1, count($result->getSeries()));
         Assert::assertEquals(8, count($result->getCategories()));
@@ -707,9 +707,32 @@ class ChartTest extends TestBase
         $series1->setDataPoints([ $dataPoint11, $dataPoint12, $dataPoint13 ]);
 
         $dto->setSeries([ $series1 ]);
-        $result = $this->getSlidesApi()->createShape(self::fileName, 1, $dto, null, null, self::password, self::folderName);
+        $result = $this->getSlidesApi()->createShape(self::fileName, 1, $dto, null, null, null, self::password, self::folderName);
         $dataPoint = $result->getSeries()[0]->getDataPoints()[2];
         Assert::assertEquals(90, $dataPoint->getValue());
+    }
+
+    public function testImportChartFromWorkbook()
+    {
+        $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
+        $file = fopen(self::localFolderName . "/oleObject.xlsx", 'r');
+        $result = $this->getSlidesApi()->importChartFromWorkbook(
+            self::fileName, self::slideIndex, "Sheet1", $file, null, 1,
+            null, null, null, null, null, self::password, self::folderName);
+        Assert::assertNotNull($result);
+        Assert::assertEquals("Chart", $result->getType());
+    }
+
+    public function testImportChartFromWorkbookByPath()
+    {
+        $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
+        $file = fopen(self::localFolderName . "/oleObject.xlsx", 'r');
+        $this->getSlidesApi()->uploadFile(self::folderName . "/oleObject.xlsx", $file);
+        $result = $this->getSlidesApi()->importChartFromWorkbook(
+            self::fileName, self::slideIndex, "Sheet1", null, null, 1,
+            null, null, null, self::folderName . "/oleObject.xlsx", null, self::password, self::folderName);
+        Assert::assertNotNull($result);
+        Assert::assertEquals("Chart", $result->getType());
     }
 
     public const color = "#77CEF9";

@@ -57,6 +57,7 @@ class PptxExportOptions extends ExportOptions
     protected static $swaggerTypes = [
         'conformance' => 'string',
         'zip64Mode' => 'string',
+        'compressionLevel' => 'string',
         'refreshThumbnail' => 'bool'
     ];
 
@@ -68,6 +69,7 @@ class PptxExportOptions extends ExportOptions
     protected static $swaggerFormats = [
         'conformance' => null,
         'zip64Mode' => null,
+        'compressionLevel' => null,
         'refreshThumbnail' => null
     ];
 
@@ -100,6 +102,7 @@ class PptxExportOptions extends ExportOptions
     protected static $attributeMap = [
         'conformance' => 'Conformance',
         'zip64Mode' => 'Zip64Mode',
+        'compressionLevel' => 'CompressionLevel',
         'refreshThumbnail' => 'RefreshThumbnail'
     ];
 
@@ -111,6 +114,7 @@ class PptxExportOptions extends ExportOptions
     protected static $setters = [
         'conformance' => 'setConformance',
         'zip64Mode' => 'setZip64Mode',
+        'compressionLevel' => 'setCompressionLevel',
         'refreshThumbnail' => 'setRefreshThumbnail'
     ];
 
@@ -122,6 +126,7 @@ class PptxExportOptions extends ExportOptions
     protected static $getters = [
         'conformance' => 'getConformance',
         'zip64Mode' => 'getZip64Mode',
+        'compressionLevel' => 'getCompressionLevel',
         'refreshThumbnail' => 'getRefreshThumbnail'
     ];
 
@@ -172,6 +177,16 @@ class PptxExportOptions extends ExportOptions
     const ZIP64_MODE_NEVER = 'Never';
     const ZIP64_MODE_IF_NECESSARY = 'IfNecessary';
     const ZIP64_MODE_ALWAYS = 'Always';
+    const COMPRESSION_LEVEL_NONE = 'None';
+    const COMPRESSION_LEVEL_LEVEL1 = 'Level1';
+    const COMPRESSION_LEVEL_LEVEL2 = 'Level2';
+    const COMPRESSION_LEVEL_LEVEL3 = 'Level3';
+    const COMPRESSION_LEVEL_LEVEL4 = 'Level4';
+    const COMPRESSION_LEVEL_LEVEL5 = 'Level5';
+    const COMPRESSION_LEVEL_LEVEL6 = 'Level6';
+    const COMPRESSION_LEVEL_LEVEL7 = 'Level7';
+    const COMPRESSION_LEVEL_LEVEL8 = 'Level8';
+    const COMPRESSION_LEVEL_LEVEL9 = 'Level9';
     
 
     
@@ -203,6 +218,27 @@ class PptxExportOptions extends ExportOptions
         ];
     }
     
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getCompressionLevelAllowableValues()
+    {
+        return [
+            self::COMPRESSION_LEVEL_NONE,
+            self::COMPRESSION_LEVEL_LEVEL1,
+            self::COMPRESSION_LEVEL_LEVEL2,
+            self::COMPRESSION_LEVEL_LEVEL3,
+            self::COMPRESSION_LEVEL_LEVEL4,
+            self::COMPRESSION_LEVEL_LEVEL5,
+            self::COMPRESSION_LEVEL_LEVEL6,
+            self::COMPRESSION_LEVEL_LEVEL7,
+            self::COMPRESSION_LEVEL_LEVEL8,
+            self::COMPRESSION_LEVEL_LEVEL9,
+        ];
+    }
+    
 
 
     /**
@@ -217,6 +253,7 @@ class PptxExportOptions extends ExportOptions
 
         $this->container['conformance'] = isset($data['conformance']) ? $data['conformance'] : null;
         $this->container['zip64Mode'] = isset($data['zip64Mode']) ? $data['zip64Mode'] : null;
+        $this->container['compressionLevel'] = isset($data['compressionLevel']) ? $data['compressionLevel'] : null;
         $this->container['refreshThumbnail'] = isset($data['refreshThumbnail']) ? $data['refreshThumbnail'] : null;
         $this->container['format'] = 'pptx';
         
@@ -247,6 +284,14 @@ class PptxExportOptions extends ExportOptions
             );
         }
 
+        $allowedValues = $this->getCompressionLevelAllowableValues();
+        if (!in_array($this->container['compressionLevel'], $allowedValues)) {
+            $invalidProperties[] = sprintf(
+                "invalid value for 'compressionLevel', must be one of '%s'",
+                implode("', '", $allowedValues)
+            );
+        }
+
         return $invalidProperties;
     }
 
@@ -268,6 +313,10 @@ class PptxExportOptions extends ExportOptions
         }
         $allowedValues = $this->getZip64ModeAllowableValues();
         if (!in_array($this->container['zip64Mode'], $allowedValues)) {
+            return false;
+        }
+        $allowedValues = $this->getCompressionLevelAllowableValues();
+        if (!in_array($this->container['compressionLevel'], $allowedValues)) {
             return false;
         }
         return true;
@@ -364,6 +413,53 @@ class PptxExportOptions extends ExportOptions
             }
         }
         $this->container['zip64Mode'] = $zip64Mode;
+
+        return $this;
+    }
+
+    /**
+     * Gets compressionLevel
+     *
+     * @return string
+     */
+    public function getCompressionLevel()
+    {
+        return $this->container['compressionLevel'];
+    }
+
+    /**
+     * Sets compressionLevel
+     *
+     * @param string $compressionLevel The compression level used when saving the presentation document. Higher compression levels produce smaller files but require more processing time. The actual compression ratio depends on the content of the presentation. The default value is CompressionLevel.Level6.
+     *
+     * @return $this
+     */
+    public function setCompressionLevel($compressionLevel)
+    {
+        $allowedValues = $this->getCompressionLevelAllowableValues();
+
+
+        if (is_numeric($compressionLevel)) {
+            if ($compressionLevel >= sizeof($allowedValues)) {
+                throw new \InvalidArgumentException(
+                    sprintf(
+                        "Invalid value for 'compressionLevel', must be one of '%s'",
+                        implode("', '", $allowedValues)
+                    )
+                );
+                $compressionLevel = $allowedValues[$compressionLevel];
+            }
+        } else {
+            if (!is_null($compressionLevel) && !in_array($compressionLevel, $allowedValues)) {
+                throw new \InvalidArgumentException(
+                    sprintf(
+                        "Invalid value for 'compressionLevel', must be one of '%s'",
+                        implode("', '", $allowedValues)
+                    )
+                );
+            }
+        }
+        $this->container['compressionLevel'] = $compressionLevel;
 
         return $this;
     }

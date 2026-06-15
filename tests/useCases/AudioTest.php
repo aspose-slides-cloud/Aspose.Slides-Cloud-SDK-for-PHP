@@ -48,7 +48,7 @@ class AudioTest extends TestBase
 
         $dto = new AudioFrame();
         $dto->setBase64Data("bXAzc2FtcGxl");
-        $this->getSlidesApi()->createShape(self::fileName, $slideIndex, $dto, null, null, self::password, self::folderName);
+        $this->getSlidesApi()->createShape(self::fileName, $slideIndex, $dto, null, null, null, self::password, self::folderName);
         $captions = $this->getSlidesApi()->getCaptionTracks(
             self::fileName, $slideIndex, $shapeIndex, null, self::password, self::folderName);
         Assert::assertEquals(0, count($captions->getItems()));

@@ -234,34 +234,45 @@ class ApiBase
      */
     protected function writeResponseLog($statusCode, $headers, $body)
     {
-        $logInfo = "\nResponse: $statusCode \n";
-        echo $logInfo . $this->writeHeadersAndBody($logInfo, $headers, $body);
+        $this->log("\nResponse: $statusCode \n" . $this->formatHeadersAndBody($headers, $body));
     }
-	
+
     /*
      * Executes request logging
      */
     protected function writeRequestLog($method, $url, $headers, $body)
     {
-        $logInfo = "\n$method: $url \n";
-        echo $logInfo . $this->writeHeadersAndBody($logInfo, $headers, $body);
+        $this->log("\n$method: $url \n" . $this->formatHeadersAndBody($headers, $body));
     }
-	
+
     /*
-     * Executes header and boy formatting
+     * Formats headers and body for logging
      */
-    private function writeHeadersAndBody($logInfo, $headers, $body)
+    private function formatHeadersAndBody($headers, $body)
     {
-        echo "\nlog:";
+        $logInfo = "";
         foreach ($headers as $name => $value) {
             $logInfo .= $name.': '.(is_array($value) ? implode(",", $value) : $value)."\n";
         }
         if (is_object($body) && get_class($body) == "SplFileObject") {
-            return $logInfo .= "Body: binary (".$body->getSize()." bytes).\n";
+            return $logInfo . "Body: binary (".$body->getSize()." bytes).\n";
         }
         if (is_object($body) && get_class($body) == "GuzzleHttp\\Psr7\\MultipartStream") {
-            return $logInfo .= "Body: multipart\n";
+            return $logInfo . "Body: multipart\n";
         }
-        return $logInfo .= "Body: ".$body."\n";
+        return $logInfo . "Body: ".$body."\n";
+    }
+
+    /*
+     * Dispatches a log message to the configured logger or debug file
+     */
+    private function log($message)
+    {
+        $logger = $this->config->getLogger();
+        if ($logger !== null) {
+            $logger($message);
+        } else {
+            file_put_contents($this->config->getDebugFile(), $message, FILE_APPEND);
+        }
     }
 }

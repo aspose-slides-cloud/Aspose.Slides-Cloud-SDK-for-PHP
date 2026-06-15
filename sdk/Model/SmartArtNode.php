@@ -62,7 +62,8 @@ class SmartArtNode implements ArrayAccess
         'isAssistant' => 'bool',
         'text' => 'string',
         'orgChartLayout' => 'string',
-        'paragraphs' => '\Aspose\Slides\Cloud\Sdk\Model\ResourceUri'
+        'paragraphs' => '\Aspose\Slides\Cloud\Sdk\Model\ResourceUri',
+        'defaultParagraphFormat' => '\Aspose\Slides\Cloud\Sdk\Model\ParagraphFormat'
     ];
 
     /**
@@ -76,7 +77,8 @@ class SmartArtNode implements ArrayAccess
         'isAssistant' => null,
         'text' => null,
         'orgChartLayout' => null,
-        'paragraphs' => null
+        'paragraphs' => null,
+        'defaultParagraphFormat' => null
     ];
 
     /**
@@ -111,7 +113,8 @@ class SmartArtNode implements ArrayAccess
         'isAssistant' => 'IsAssistant',
         'text' => 'Text',
         'orgChartLayout' => 'OrgChartLayout',
-        'paragraphs' => 'Paragraphs'
+        'paragraphs' => 'Paragraphs',
+        'defaultParagraphFormat' => 'DefaultParagraphFormat'
     ];
 
     /**
@@ -125,7 +128,8 @@ class SmartArtNode implements ArrayAccess
         'isAssistant' => 'setIsAssistant',
         'text' => 'setText',
         'orgChartLayout' => 'setOrgChartLayout',
-        'paragraphs' => 'setParagraphs'
+        'paragraphs' => 'setParagraphs',
+        'defaultParagraphFormat' => 'setDefaultParagraphFormat'
     ];
 
     /**
@@ -139,7 +143,8 @@ class SmartArtNode implements ArrayAccess
         'isAssistant' => 'getIsAssistant',
         'text' => 'getText',
         'orgChartLayout' => 'getOrgChartLayout',
-        'paragraphs' => 'getParagraphs'
+        'paragraphs' => 'getParagraphs',
+        'defaultParagraphFormat' => 'getDefaultParagraphFormat'
     ];
 
     /**
@@ -229,6 +234,7 @@ class SmartArtNode implements ArrayAccess
         $this->container['text'] = isset($data['text']) ? $data['text'] : null;
         $this->container['orgChartLayout'] = isset($data['orgChartLayout']) ? $data['orgChartLayout'] : null;
         $this->container['paragraphs'] = isset($data['paragraphs']) ? $data['paragraphs'] : null;
+        $this->container['defaultParagraphFormat'] = isset($data['defaultParagraphFormat']) ? $data['defaultParagraphFormat'] : null;
         
     }
 
@@ -438,6 +444,30 @@ class SmartArtNode implements ArrayAccess
     public function setParagraphs($paragraphs)
     {
         $this->container['paragraphs'] = $paragraphs;
+
+        return $this;
+    }
+
+    /**
+     * Gets defaultParagraphFormat
+     *
+     * @return \Aspose\Slides\Cloud\Sdk\Model\ParagraphFormat
+     */
+    public function getDefaultParagraphFormat()
+    {
+        return $this->container['defaultParagraphFormat'];
+    }
+
+    /**
+     * Sets defaultParagraphFormat
+     *
+     * @param \Aspose\Slides\Cloud\Sdk\Model\ParagraphFormat $defaultParagraphFormat Default paragraph format for the node's text frame.
+     *
+     * @return $this
+     */
+    public function setDefaultParagraphFormat($defaultParagraphFormat)
+    {
+        $this->container['defaultParagraphFormat'] = $defaultParagraphFormat;
 
         return $this;
     }
