@@ -28,6 +28,7 @@
 
 namespace Aspose\Slides\Cloud\Sdk\Tests\UseCases;
 
+use Aspose\Slides\Cloud\Sdk\Model\ImageExportFormat;
 use Aspose\Slides\Cloud\Sdk\Model\Paragraph;
 use Aspose\Slides\Cloud\Sdk\Model\Portion;
 use Aspose\Slides\Cloud\Sdk\Model\PortionFormat;
@@ -401,6 +402,59 @@ class ParagraphTest extends TestBase
         getParagraphEffective(self::fileName, self::slideIndex, $shapeIndex, 1, self::password, 
             self::folderName, null, $subShape);
         Assert::assertEquals(72, $response->getDefaultTabSize());
+    }
+
+    public function testDownloadParagraph()
+    {
+        $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
+        $result = $this->getSlidesApi()->downloadParagraph(self::fileName, self::slideIndex, self::shapeIndex, 1,
+            ImageExportFormat::PNG, null, null, null, self::password, self::folderName);
+        Assert::assertTrue($result->isFile());
+        Assert::assertGreaterThan(0, $result->getSize());
+    }
+
+    public function testDownloadSubshapeParagraph()
+    {
+        $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
+        $shapeIndex = 3;
+        $subShape = "1";
+        $result = $this->getSlidesApi()->downloadParagraph(self::fileName, self::slideIndex, $shapeIndex, 1,
+            ImageExportFormat::PNG, null, null, null, self::password, self::folderName, null, null, $subShape);
+        Assert::assertTrue($result->isFile());
+        Assert::assertGreaterThan(0, $result->getSize());
+    }
+
+    public function testDownloadParagraphScaled()
+    {
+        $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
+        $result = $this->getSlidesApi()->downloadParagraph(self::fileName, self::slideIndex, self::shapeIndex, 1,
+            ImageExportFormat::PNG, null, null, null, self::password, self::folderName);
+        $scaledResult = $this->getSlidesApi()->downloadParagraph(self::fileName, self::slideIndex, self::shapeIndex, 1,
+            ImageExportFormat::PNG, 2, 2, null, self::password, self::folderName);
+        Assert::assertGreaterThan($result->getSize(), $scaledResult->getSize());
+    }
+
+    public function testSaveParagraph()
+    {
+        $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
+        $outPath = self::folderName . "/paragraph.png";
+        $this->getSlidesApi()->saveParagraph(self::fileName, self::slideIndex, self::shapeIndex, 1,
+            ImageExportFormat::PNG, $outPath, null, null, null, self::password, self::folderName);
+        $result = $this->getSlidesApi()->objectExists($outPath);
+        Assert::assertTrue($result->getExists());
+    }
+
+    public function testSaveSubshapeParagraph()
+    {
+        $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
+        $shapeIndex = 3;
+        $subShape = "1";
+        $outPath = self::folderName . "/paragraph.png";
+        $this->getSlidesApi()->saveParagraph(self::fileName, self::slideIndex, $shapeIndex, 1,
+            ImageExportFormat::PNG, $outPath, null, null, null, self::password, self::folderName, null, null,
+            $subShape);
+        $result = $this->getSlidesApi()->objectExists($outPath);
+        Assert::assertTrue($result->getExists());
     }
 
     public const slideIndex = 6;

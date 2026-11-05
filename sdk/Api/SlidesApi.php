@@ -5019,7 +5019,7 @@ class SlidesApi extends ApiBase
             return [$deserializedContent, $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-                case 200:
+                case 201:
                     $data = ObjectSerializer::deserialize($e->getResponseBody(), '\Aspose\Slides\Cloud\Sdk\Model\SmartArt', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
@@ -17518,6 +17518,195 @@ class SlidesApi extends ApiBase
     }
     /**
      */
+    public function downloadParagraph($name, $slideIndex, $shapeIndex, $paragraphIndex, $format, $scaleX = null, $scaleY = null, $quality = null, $password = null, $folder = null, $storage = null, $fontsFolder = null, $subShape = null)
+    {
+        list($response) = $this->downloadParagraphWithHttpInfo($name, $slideIndex, $shapeIndex, $paragraphIndex, $format, $scaleX, $scaleY, $quality, $password, $folder, $storage, $fontsFolder, $subShape);
+        return $response;
+    }
+
+    /**
+     */
+    public function downloadParagraphWithHttpInfo($name, $slideIndex, $shapeIndex, $paragraphIndex, $format, $scaleX = null, $scaleY = null, $quality = null, $password = null, $folder = null, $storage = null, $fontsFolder = null, $subShape = null)
+    {
+        $returnType = '\SplFileObject';
+        $httpRequest = $this->downloadParagraphRequest($name, $slideIndex, $shapeIndex, $paragraphIndex, $format, $scaleX, $scaleY, $quality, $password, $folder, $storage, $fontsFolder, $subShape);
+        try {
+            $response = $this->httpCall($httpRequest);
+            $responseBody = $response->getBody();
+            $content = $responseBody; //stream goes to serializer
+            $deserializedContent = ObjectSerializer::deserialize($content, $returnType, []);
+            if ($this->config->getDebug()) {
+                $this->writeResponseLog($response->getStatusCode(), $response->getHeaders(), $deserializedContent);
+            }
+            return [$deserializedContent, $response->getStatusCode(), $response->getHeaders()];
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\SplFileObject', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                default: $this->handleApiException($e);
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     */
+    public function downloadParagraphAsync($name, $slideIndex, $shapeIndex, $paragraphIndex, $format, $scaleX = null, $scaleY = null, $quality = null, $password = null, $folder = null, $storage = null, $fontsFolder = null, $subShape = null)
+    {
+        return $this->downloadParagraphAsyncWithHttpInfo($name, $slideIndex, $shapeIndex, $paragraphIndex, $format, $scaleX, $scaleY, $quality, $password, $folder, $storage, $fontsFolder, $subShape)
+            ->then(function ($response) {
+                return $response[0];
+            });
+    }
+
+    /**
+     */
+    public function downloadParagraphAsyncWithHttpInfo($name, $slideIndex, $shapeIndex, $paragraphIndex, $format, $scaleX = null, $scaleY = null, $quality = null, $password = null, $folder = null, $storage = null, $fontsFolder = null, $subShape = null)
+    {
+        $returnType = '\SplFileObject';
+        $httpRequest = $this->downloadParagraphRequest($name, $slideIndex, $shapeIndex, $paragraphIndex, $format, $scaleX, $scaleY, $quality, $password, $folder, $storage, $fontsFolder, $subShape);
+
+        return $this->client
+            ->sendAsync($httpRequest, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    $responseBody = $response->getBody();
+                    if ($returnType === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+                    if ($this->config->getDebug()) {
+                        $this->writeResponseLog(
+                            $response->getStatusCode(),
+                            $response->getHeaders(),
+                            ObjectSerializer::deserialize($content, $returnType, []));
+                    }
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    if ($exception instanceof RepeatRequestException) {
+                        $this->refreshToken();
+                        throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
+                    }
+                    throw new ApiException(
+                        sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()),
+                        $statusCode,
+                        $response->getHeaders(),
+                        $response->getBody());
+                });
+    }
+
+    /**
+     * Create request for operation 'downloadParagraph'
+     *
+     * @param  string $$name Presentation name. (required)
+     * @param  int $$slideIndex Slide index. (required)
+     * @param  int $$shapeIndex Index of shape starting from 1 (required)
+     * @param  int $$paragraphIndex Paragraph index. (required)
+     * @param  string $$format Export picture format. (required)
+     * @param  float $$scaleX X scale ratio. (optional, default to 0.0)
+     * @param  float $$scaleY Y scale ratio. (optional, default to 0.0)
+     * @param  int $$quality Image quality (1 to 100); applies to JPEG only. (optional, default to 100)
+     * @param  string $$password Document password. (optional)
+     * @param  string $$folder Presentation folder. (optional)
+     * @param  string $$storage Presentation storage. (optional)
+     * @param  string $$fontsFolder Fonts folder. (optional)
+     * @param  string $$subShape Sub-shape path (e.g. \&quot;3\&quot;, \&quot;3/shapes/2). (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function downloadParagraphRequest($name, $slideIndex, $shapeIndex, $paragraphIndex, $format, $scaleX = null, $scaleY = null, $quality = null, $password = null, $folder = null, $storage = null, $fontsFolder = null, $subShape = null)
+    {
+        // verify the required parameter 'name' is set
+        if ($name === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $name when calling downloadParagraph');
+        }
+        // verify the required parameter 'slide_index' is set
+        if ($slideIndex === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $slideIndex when calling downloadParagraph');
+        }
+        // verify the required parameter 'shape_index' is set
+        if ($shapeIndex === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $shapeIndex when calling downloadParagraph');
+        }
+        // verify the required parameter 'paragraph_index' is set
+        if ($paragraphIndex === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $paragraphIndex when calling downloadParagraph');
+        }
+        // verify the required parameter 'format' is set
+        if ($format === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $format when calling downloadParagraph');
+        }
+        // verify the value of enum parameter 'format' is valid
+        if (!in_array(strtolower($format), array_map('strtolower', \Aspose\Slides\Cloud\Sdk\Model\ImageExportFormat::getAllowableEnumValues()))) {
+            throw new \InvalidArgumentException('Invalid value for format: ' . $format . '. Must be one of the following: ' . implode(',', \Aspose\Slides\Cloud\Sdk\Model\ImageExportFormat::getAllowableEnumValues()));
+        }
+
+        $resourcePath = '/slides/{name}/slides/{slideIndex}/shapes/{shapeIndex}/paragraphs/{paragraphIndex}/{format}';
+        $queryParams = [];
+        $headerParams = [];
+
+        // query params
+        if ($scaleX !== null) {
+            $queryParams['scaleX'] = ObjectSerializer::toQueryValue($scaleX);
+        }
+        // query params
+        if ($scaleY !== null) {
+            $queryParams['scaleY'] = ObjectSerializer::toQueryValue($scaleY);
+        }
+        // query params
+        if ($quality !== null) {
+            $queryParams['quality'] = ObjectSerializer::toQueryValue($quality);
+        }
+        // query params
+        if ($folder !== null) {
+            $queryParams['folder'] = ObjectSerializer::toQueryValue($folder);
+        }
+        // query params
+        if ($storage !== null) {
+            $queryParams['storage'] = ObjectSerializer::toQueryValue($storage);
+        }
+        // query params
+        if ($fontsFolder !== null) {
+            $queryParams['fontsFolder'] = ObjectSerializer::toQueryValue($fontsFolder);
+        }
+        // query params
+        if ($subShape !== null) {
+            $queryParams['subShape'] = ObjectSerializer::toQueryValue($subShape);
+        }
+        // header params
+        if ($password !== null) {
+            $headerParams['password'] = ObjectSerializer::toHeaderValue($password);
+        }
+
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "name", $name);
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "slideIndex", $slideIndex);
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "shapeIndex", $shapeIndex);
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "paragraphIndex", $paragraphIndex);
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "format", $format);
+        $_tempBody = [];
+        $this->headerSelector->selectHeaders(
+            $headerParams,
+            ['multipart/form-data'],
+            ['application/json']);
+        $httpBody = ObjectSerializer::createBody($_tempBody);
+        return $this->createRequest($resourcePath, $queryParams, $headerParams, $httpBody, 'POST');
+    }
+    /**
+     */
     public function downloadPresentation($name, $format, \Aspose\Slides\Cloud\Sdk\Model\ExportOptions $options = null, $password = null, $folder = null, $storage = null, $fontsFolder = null, array $slides = null)
     {
         list($response) = $this->downloadPresentationWithHttpInfo($name, $format, $options, $password, $folder, $storage, $fontsFolder, $slides);
@@ -18716,6 +18905,202 @@ class SlidesApi extends ApiBase
         if (isset($options)) {
             array_push($_tempBody, $options);
         }
+        $this->headerSelector->selectHeaders(
+            $headerParams,
+            ['multipart/form-data'],
+            ['application/json']);
+        $httpBody = ObjectSerializer::createBody($_tempBody);
+        return $this->createRequest($resourcePath, $queryParams, $headerParams, $httpBody, 'POST');
+    }
+    /**
+     */
+    public function downloadTableCellParagraph($name, $slideIndex, $shapeIndex, $rowIndex, $cellIndex, $paragraphIndex, $format, $scaleX = null, $scaleY = null, $quality = null, $password = null, $folder = null, $storage = null, $fontsFolder = null)
+    {
+        list($response) = $this->downloadTableCellParagraphWithHttpInfo($name, $slideIndex, $shapeIndex, $rowIndex, $cellIndex, $paragraphIndex, $format, $scaleX, $scaleY, $quality, $password, $folder, $storage, $fontsFolder);
+        return $response;
+    }
+
+    /**
+     */
+    public function downloadTableCellParagraphWithHttpInfo($name, $slideIndex, $shapeIndex, $rowIndex, $cellIndex, $paragraphIndex, $format, $scaleX = null, $scaleY = null, $quality = null, $password = null, $folder = null, $storage = null, $fontsFolder = null)
+    {
+        $returnType = '\SplFileObject';
+        $httpRequest = $this->downloadTableCellParagraphRequest($name, $slideIndex, $shapeIndex, $rowIndex, $cellIndex, $paragraphIndex, $format, $scaleX, $scaleY, $quality, $password, $folder, $storage, $fontsFolder);
+        try {
+            $response = $this->httpCall($httpRequest);
+            $responseBody = $response->getBody();
+            $content = $responseBody; //stream goes to serializer
+            $deserializedContent = ObjectSerializer::deserialize($content, $returnType, []);
+            if ($this->config->getDebug()) {
+                $this->writeResponseLog($response->getStatusCode(), $response->getHeaders(), $deserializedContent);
+            }
+            return [$deserializedContent, $response->getStatusCode(), $response->getHeaders()];
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize($e->getResponseBody(), '\SplFileObject', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
+                default: $this->handleApiException($e);
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     */
+    public function downloadTableCellParagraphAsync($name, $slideIndex, $shapeIndex, $rowIndex, $cellIndex, $paragraphIndex, $format, $scaleX = null, $scaleY = null, $quality = null, $password = null, $folder = null, $storage = null, $fontsFolder = null)
+    {
+        return $this->downloadTableCellParagraphAsyncWithHttpInfo($name, $slideIndex, $shapeIndex, $rowIndex, $cellIndex, $paragraphIndex, $format, $scaleX, $scaleY, $quality, $password, $folder, $storage, $fontsFolder)
+            ->then(function ($response) {
+                return $response[0];
+            });
+    }
+
+    /**
+     */
+    public function downloadTableCellParagraphAsyncWithHttpInfo($name, $slideIndex, $shapeIndex, $rowIndex, $cellIndex, $paragraphIndex, $format, $scaleX = null, $scaleY = null, $quality = null, $password = null, $folder = null, $storage = null, $fontsFolder = null)
+    {
+        $returnType = '\SplFileObject';
+        $httpRequest = $this->downloadTableCellParagraphRequest($name, $slideIndex, $shapeIndex, $rowIndex, $cellIndex, $paragraphIndex, $format, $scaleX, $scaleY, $quality, $password, $folder, $storage, $fontsFolder);
+
+        return $this->client
+            ->sendAsync($httpRequest, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    $responseBody = $response->getBody();
+                    if ($returnType === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+                    if ($this->config->getDebug()) {
+                        $this->writeResponseLog(
+                            $response->getStatusCode(),
+                            $response->getHeaders(),
+                            ObjectSerializer::deserialize($content, $returnType, []));
+                    }
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    if ($exception instanceof RepeatRequestException) {
+                        $this->refreshToken();
+                        throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
+                    }
+                    throw new ApiException(
+                        sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()),
+                        $statusCode,
+                        $response->getHeaders(),
+                        $response->getBody());
+                });
+    }
+
+    /**
+     * Create request for operation 'downloadTableCellParagraph'
+     *
+     * @param  string $$name Document name. (required)
+     * @param  int $$slideIndex Slide index. (required)
+     * @param  int $$shapeIndex Shape index. (required)
+     * @param  int $$rowIndex Row index. (required)
+     * @param  int $$cellIndex Table cell index. (required)
+     * @param  int $$paragraphIndex Paragraph index. (required)
+     * @param  string $$format Export picture format. (required)
+     * @param  float $$scaleX X scale ratio. (optional, default to 0.0)
+     * @param  float $$scaleY Y scale ratio. (optional, default to 0.0)
+     * @param  int $$quality Image quality (1 to 100); applies to JPEG only. (optional, default to 100)
+     * @param  string $$password Document password. (optional)
+     * @param  string $$folder Document folder. (optional)
+     * @param  string $$storage Document storage. (optional)
+     * @param  string $$fontsFolder Fonts folder. (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function downloadTableCellParagraphRequest($name, $slideIndex, $shapeIndex, $rowIndex, $cellIndex, $paragraphIndex, $format, $scaleX = null, $scaleY = null, $quality = null, $password = null, $folder = null, $storage = null, $fontsFolder = null)
+    {
+        // verify the required parameter 'name' is set
+        if ($name === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $name when calling downloadTableCellParagraph');
+        }
+        // verify the required parameter 'slide_index' is set
+        if ($slideIndex === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $slideIndex when calling downloadTableCellParagraph');
+        }
+        // verify the required parameter 'shape_index' is set
+        if ($shapeIndex === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $shapeIndex when calling downloadTableCellParagraph');
+        }
+        // verify the required parameter 'row_index' is set
+        if ($rowIndex === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $rowIndex when calling downloadTableCellParagraph');
+        }
+        // verify the required parameter 'cell_index' is set
+        if ($cellIndex === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $cellIndex when calling downloadTableCellParagraph');
+        }
+        // verify the required parameter 'paragraph_index' is set
+        if ($paragraphIndex === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $paragraphIndex when calling downloadTableCellParagraph');
+        }
+        // verify the required parameter 'format' is set
+        if ($format === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $format when calling downloadTableCellParagraph');
+        }
+        // verify the value of enum parameter 'format' is valid
+        if (!in_array(strtolower($format), array_map('strtolower', \Aspose\Slides\Cloud\Sdk\Model\ImageExportFormat::getAllowableEnumValues()))) {
+            throw new \InvalidArgumentException('Invalid value for format: ' . $format . '. Must be one of the following: ' . implode(',', \Aspose\Slides\Cloud\Sdk\Model\ImageExportFormat::getAllowableEnumValues()));
+        }
+
+        $resourcePath = '/slides/{name}/slides/{slideIndex}/shapes/{shapeIndex}/rows/{rowIndex}/cells/{cellIndex}/paragraphs/{paragraphIndex}/{format}';
+        $queryParams = [];
+        $headerParams = [];
+
+        // query params
+        if ($scaleX !== null) {
+            $queryParams['scaleX'] = ObjectSerializer::toQueryValue($scaleX);
+        }
+        // query params
+        if ($scaleY !== null) {
+            $queryParams['scaleY'] = ObjectSerializer::toQueryValue($scaleY);
+        }
+        // query params
+        if ($quality !== null) {
+            $queryParams['quality'] = ObjectSerializer::toQueryValue($quality);
+        }
+        // query params
+        if ($folder !== null) {
+            $queryParams['folder'] = ObjectSerializer::toQueryValue($folder);
+        }
+        // query params
+        if ($storage !== null) {
+            $queryParams['storage'] = ObjectSerializer::toQueryValue($storage);
+        }
+        // query params
+        if ($fontsFolder !== null) {
+            $queryParams['fontsFolder'] = ObjectSerializer::toQueryValue($fontsFolder);
+        }
+        // header params
+        if ($password !== null) {
+            $headerParams['password'] = ObjectSerializer::toHeaderValue($password);
+        }
+
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "name", $name);
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "slideIndex", $slideIndex);
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "shapeIndex", $shapeIndex);
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "rowIndex", $rowIndex);
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "cellIndex", $cellIndex);
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "paragraphIndex", $paragraphIndex);
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "format", $format);
+        $_tempBody = [];
         $this->headerSelector->selectHeaders(
             $headerParams,
             ['multipart/form-data'],
@@ -29094,7 +29479,7 @@ class SlidesApi extends ApiBase
             return [$deserializedContent, $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-                case 200:
+                case 201:
                     $data = ObjectSerializer::deserialize($e->getResponseBody(), '\Aspose\Slides\Cloud\Sdk\Model\ShapeBase', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
@@ -29599,7 +29984,7 @@ class SlidesApi extends ApiBase
             return [$deserializedContent, $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-                case 200:
+                case 201:
                     $data = ObjectSerializer::deserialize($e->getResponseBody(), '\Aspose\Slides\Cloud\Sdk\Model\Shapes', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
@@ -29778,7 +30163,7 @@ class SlidesApi extends ApiBase
             return [$deserializedContent, $response->getStatusCode(), $response->getHeaders()];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-                case 200:
+                case 201:
                     $data = ObjectSerializer::deserialize($e->getResponseBody(), '\Aspose\Slides\Cloud\Sdk\Model\ShapeBase', $e->getResponseHeaders());
                     $e->setResponseObject($data);
                     break;
@@ -33859,6 +34244,174 @@ class SlidesApi extends ApiBase
     }
     /**
      */
+    public function saveParagraph($name, $slideIndex, $shapeIndex, $paragraphIndex, $format, $outPath, $scaleX = null, $scaleY = null, $quality = null, $password = null, $folder = null, $storage = null, $fontsFolder = null, $subShape = null)
+    {
+        $this->saveParagraphWithHttpInfo($name, $slideIndex, $shapeIndex, $paragraphIndex, $format, $outPath, $scaleX, $scaleY, $quality, $password, $folder, $storage, $fontsFolder, $subShape);
+    }
+
+    /**
+     */
+    public function saveParagraphWithHttpInfo($name, $slideIndex, $shapeIndex, $paragraphIndex, $format, $outPath, $scaleX = null, $scaleY = null, $quality = null, $password = null, $folder = null, $storage = null, $fontsFolder = null, $subShape = null)
+    {
+        $returnType = '';
+        $httpRequest = $this->saveParagraphRequest($name, $slideIndex, $shapeIndex, $paragraphIndex, $format, $outPath, $scaleX, $scaleY, $quality, $password, $folder, $storage, $fontsFolder, $subShape);
+        try {
+            $response = $this->httpCall($httpRequest);
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                default: $this->handleApiException($e);
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     */
+    public function saveParagraphAsync($name, $slideIndex, $shapeIndex, $paragraphIndex, $format, $outPath, $scaleX = null, $scaleY = null, $quality = null, $password = null, $folder = null, $storage = null, $fontsFolder = null, $subShape = null)
+    {
+        return $this->saveParagraphAsyncWithHttpInfo($name, $slideIndex, $shapeIndex, $paragraphIndex, $format, $outPath, $scaleX, $scaleY, $quality, $password, $folder, $storage, $fontsFolder, $subShape)
+            ->then(function ($response) {
+                return $response[0];
+            });
+    }
+
+    /**
+     */
+    public function saveParagraphAsyncWithHttpInfo($name, $slideIndex, $shapeIndex, $paragraphIndex, $format, $outPath, $scaleX = null, $scaleY = null, $quality = null, $password = null, $folder = null, $storage = null, $fontsFolder = null, $subShape = null)
+    {
+        $returnType = '';
+        $httpRequest = $this->saveParagraphRequest($name, $slideIndex, $shapeIndex, $paragraphIndex, $format, $outPath, $scaleX, $scaleY, $quality, $password, $folder, $storage, $fontsFolder, $subShape);
+
+        return $this->client
+            ->sendAsync($httpRequest, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    if ($exception instanceof RepeatRequestException) {
+                        $this->refreshToken();
+                        throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
+                    }
+                    throw new ApiException(
+                        sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()),
+                        $statusCode,
+                        $response->getHeaders(),
+                        $response->getBody());
+                });
+    }
+
+    /**
+     * Create request for operation 'saveParagraph'
+     *
+     * @param  string $$name Presentation name. (required)
+     * @param  int $$slideIndex Slide index. (required)
+     * @param  int $$shapeIndex Index of shape starting from 1 (required)
+     * @param  int $$paragraphIndex Paragraph index. (required)
+     * @param  string $$format Export picture format. (required)
+     * @param  string $$outPath Output path. (required)
+     * @param  float $$scaleX X scale ratio. (optional, default to 0.0)
+     * @param  float $$scaleY Y scale ratio. (optional, default to 0.0)
+     * @param  int $$quality Image quality (1 to 100); applies to JPEG only. (optional, default to 100)
+     * @param  string $$password Document password. (optional)
+     * @param  string $$folder Presentation folder. (optional)
+     * @param  string $$storage Presentation storage. (optional)
+     * @param  string $$fontsFolder Fonts folder. (optional)
+     * @param  string $$subShape Sub-shape path (e.g. \&quot;3\&quot;, \&quot;3/shapes/2). (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function saveParagraphRequest($name, $slideIndex, $shapeIndex, $paragraphIndex, $format, $outPath, $scaleX = null, $scaleY = null, $quality = null, $password = null, $folder = null, $storage = null, $fontsFolder = null, $subShape = null)
+    {
+        // verify the required parameter 'name' is set
+        if ($name === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $name when calling saveParagraph');
+        }
+        // verify the required parameter 'slide_index' is set
+        if ($slideIndex === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $slideIndex when calling saveParagraph');
+        }
+        // verify the required parameter 'shape_index' is set
+        if ($shapeIndex === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $shapeIndex when calling saveParagraph');
+        }
+        // verify the required parameter 'paragraph_index' is set
+        if ($paragraphIndex === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $paragraphIndex when calling saveParagraph');
+        }
+        // verify the required parameter 'format' is set
+        if ($format === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $format when calling saveParagraph');
+        }
+        // verify the value of enum parameter 'format' is valid
+        if (!in_array(strtolower($format), array_map('strtolower', \Aspose\Slides\Cloud\Sdk\Model\ImageExportFormat::getAllowableEnumValues()))) {
+            throw new \InvalidArgumentException('Invalid value for format: ' . $format . '. Must be one of the following: ' . implode(',', \Aspose\Slides\Cloud\Sdk\Model\ImageExportFormat::getAllowableEnumValues()));
+        }
+        // verify the required parameter 'out_path' is set
+        if ($outPath === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $outPath when calling saveParagraph');
+        }
+
+        $resourcePath = '/slides/{name}/slides/{slideIndex}/shapes/{shapeIndex}/paragraphs/{paragraphIndex}/{format}';
+        $queryParams = [];
+        $headerParams = [];
+
+        // query params
+        if ($outPath !== null) {
+            $queryParams['outPath'] = ObjectSerializer::toQueryValue($outPath);
+        }
+        // query params
+        if ($scaleX !== null) {
+            $queryParams['scaleX'] = ObjectSerializer::toQueryValue($scaleX);
+        }
+        // query params
+        if ($scaleY !== null) {
+            $queryParams['scaleY'] = ObjectSerializer::toQueryValue($scaleY);
+        }
+        // query params
+        if ($quality !== null) {
+            $queryParams['quality'] = ObjectSerializer::toQueryValue($quality);
+        }
+        // query params
+        if ($folder !== null) {
+            $queryParams['folder'] = ObjectSerializer::toQueryValue($folder);
+        }
+        // query params
+        if ($storage !== null) {
+            $queryParams['storage'] = ObjectSerializer::toQueryValue($storage);
+        }
+        // query params
+        if ($fontsFolder !== null) {
+            $queryParams['fontsFolder'] = ObjectSerializer::toQueryValue($fontsFolder);
+        }
+        // query params
+        if ($subShape !== null) {
+            $queryParams['subShape'] = ObjectSerializer::toQueryValue($subShape);
+        }
+        // header params
+        if ($password !== null) {
+            $headerParams['password'] = ObjectSerializer::toHeaderValue($password);
+        }
+
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "name", $name);
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "slideIndex", $slideIndex);
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "shapeIndex", $shapeIndex);
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "paragraphIndex", $paragraphIndex);
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "format", $format);
+        $_tempBody = [];
+        $this->headerSelector->selectHeaders(
+            $headerParams,
+            ['application/json'],
+            ['application/json']);
+        $httpBody = ObjectSerializer::createBody($_tempBody);
+        return $this->createRequest($resourcePath, $queryParams, $headerParams, $httpBody, 'PUT');
+    }
+    /**
+     */
     public function savePresentation($name, $format, $outPath, \Aspose\Slides\Cloud\Sdk\Model\ExportOptions $options = null, $password = null, $folder = null, $storage = null, $fontsFolder = null, array $slides = null)
     {
         $this->savePresentationWithHttpInfo($name, $format, $outPath, $options, $password, $folder, $storage, $fontsFolder, $slides);
@@ -34798,6 +35351,181 @@ class SlidesApi extends ApiBase
         if (isset($options)) {
             array_push($_tempBody, $options);
         }
+        $this->headerSelector->selectHeaders(
+            $headerParams,
+            ['application/json'],
+            ['application/json']);
+        $httpBody = ObjectSerializer::createBody($_tempBody);
+        return $this->createRequest($resourcePath, $queryParams, $headerParams, $httpBody, 'PUT');
+    }
+    /**
+     */
+    public function saveTableCellParagraph($name, $slideIndex, $shapeIndex, $rowIndex, $cellIndex, $paragraphIndex, $format, $outPath, $scaleX = null, $scaleY = null, $quality = null, $password = null, $folder = null, $storage = null, $fontsFolder = null)
+    {
+        $this->saveTableCellParagraphWithHttpInfo($name, $slideIndex, $shapeIndex, $rowIndex, $cellIndex, $paragraphIndex, $format, $outPath, $scaleX, $scaleY, $quality, $password, $folder, $storage, $fontsFolder);
+    }
+
+    /**
+     */
+    public function saveTableCellParagraphWithHttpInfo($name, $slideIndex, $shapeIndex, $rowIndex, $cellIndex, $paragraphIndex, $format, $outPath, $scaleX = null, $scaleY = null, $quality = null, $password = null, $folder = null, $storage = null, $fontsFolder = null)
+    {
+        $returnType = '';
+        $httpRequest = $this->saveTableCellParagraphRequest($name, $slideIndex, $shapeIndex, $rowIndex, $cellIndex, $paragraphIndex, $format, $outPath, $scaleX, $scaleY, $quality, $password, $folder, $storage, $fontsFolder);
+        try {
+            $response = $this->httpCall($httpRequest);
+            return [null, $response->getStatusCode(), $response->getHeaders()];
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                default: $this->handleApiException($e);
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     */
+    public function saveTableCellParagraphAsync($name, $slideIndex, $shapeIndex, $rowIndex, $cellIndex, $paragraphIndex, $format, $outPath, $scaleX = null, $scaleY = null, $quality = null, $password = null, $folder = null, $storage = null, $fontsFolder = null)
+    {
+        return $this->saveTableCellParagraphAsyncWithHttpInfo($name, $slideIndex, $shapeIndex, $rowIndex, $cellIndex, $paragraphIndex, $format, $outPath, $scaleX, $scaleY, $quality, $password, $folder, $storage, $fontsFolder)
+            ->then(function ($response) {
+                return $response[0];
+            });
+    }
+
+    /**
+     */
+    public function saveTableCellParagraphAsyncWithHttpInfo($name, $slideIndex, $shapeIndex, $rowIndex, $cellIndex, $paragraphIndex, $format, $outPath, $scaleX = null, $scaleY = null, $quality = null, $password = null, $folder = null, $storage = null, $fontsFolder = null)
+    {
+        $returnType = '';
+        $httpRequest = $this->saveTableCellParagraphRequest($name, $slideIndex, $shapeIndex, $rowIndex, $cellIndex, $paragraphIndex, $format, $outPath, $scaleX, $scaleY, $quality, $password, $folder, $storage, $fontsFolder);
+
+        return $this->client
+            ->sendAsync($httpRequest, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    if ($exception instanceof RepeatRequestException) {
+                        $this->refreshToken();
+                        throw new RepeatRequestException("Request must be retried", $statusCode, $response->getHeaders(), $response->getBody());
+                    }
+                    throw new ApiException(
+                        sprintf('[%d] Error connecting to the API (%s)', $statusCode, $exception->getRequest()->getUri()),
+                        $statusCode,
+                        $response->getHeaders(),
+                        $response->getBody());
+                });
+    }
+
+    /**
+     * Create request for operation 'saveTableCellParagraph'
+     *
+     * @param  string $$name Document name. (required)
+     * @param  int $$slideIndex Slide index. (required)
+     * @param  int $$shapeIndex Shape index. (required)
+     * @param  int $$rowIndex Row index. (required)
+     * @param  int $$cellIndex Table cell index. (required)
+     * @param  int $$paragraphIndex Paragraph index. (required)
+     * @param  string $$format Export picture format. (required)
+     * @param  string $$outPath Output path. (required)
+     * @param  float $$scaleX X scale ratio. (optional, default to 0.0)
+     * @param  float $$scaleY Y scale ratio. (optional, default to 0.0)
+     * @param  int $$quality Image quality (1 to 100); applies to JPEG only. (optional, default to 100)
+     * @param  string $$password Document password. (optional)
+     * @param  string $$folder Document folder. (optional)
+     * @param  string $$storage Document storage. (optional)
+     * @param  string $$fontsFolder Fonts folder. (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function saveTableCellParagraphRequest($name, $slideIndex, $shapeIndex, $rowIndex, $cellIndex, $paragraphIndex, $format, $outPath, $scaleX = null, $scaleY = null, $quality = null, $password = null, $folder = null, $storage = null, $fontsFolder = null)
+    {
+        // verify the required parameter 'name' is set
+        if ($name === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $name when calling saveTableCellParagraph');
+        }
+        // verify the required parameter 'slide_index' is set
+        if ($slideIndex === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $slideIndex when calling saveTableCellParagraph');
+        }
+        // verify the required parameter 'shape_index' is set
+        if ($shapeIndex === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $shapeIndex when calling saveTableCellParagraph');
+        }
+        // verify the required parameter 'row_index' is set
+        if ($rowIndex === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $rowIndex when calling saveTableCellParagraph');
+        }
+        // verify the required parameter 'cell_index' is set
+        if ($cellIndex === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $cellIndex when calling saveTableCellParagraph');
+        }
+        // verify the required parameter 'paragraph_index' is set
+        if ($paragraphIndex === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $paragraphIndex when calling saveTableCellParagraph');
+        }
+        // verify the required parameter 'format' is set
+        if ($format === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $format when calling saveTableCellParagraph');
+        }
+        // verify the value of enum parameter 'format' is valid
+        if (!in_array(strtolower($format), array_map('strtolower', \Aspose\Slides\Cloud\Sdk\Model\ImageExportFormat::getAllowableEnumValues()))) {
+            throw new \InvalidArgumentException('Invalid value for format: ' . $format . '. Must be one of the following: ' . implode(',', \Aspose\Slides\Cloud\Sdk\Model\ImageExportFormat::getAllowableEnumValues()));
+        }
+        // verify the required parameter 'out_path' is set
+        if ($outPath === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $outPath when calling saveTableCellParagraph');
+        }
+
+        $resourcePath = '/slides/{name}/slides/{slideIndex}/shapes/{shapeIndex}/rows/{rowIndex}/cells/{cellIndex}/paragraphs/{paragraphIndex}/{format}';
+        $queryParams = [];
+        $headerParams = [];
+
+        // query params
+        if ($outPath !== null) {
+            $queryParams['outPath'] = ObjectSerializer::toQueryValue($outPath);
+        }
+        // query params
+        if ($scaleX !== null) {
+            $queryParams['scaleX'] = ObjectSerializer::toQueryValue($scaleX);
+        }
+        // query params
+        if ($scaleY !== null) {
+            $queryParams['scaleY'] = ObjectSerializer::toQueryValue($scaleY);
+        }
+        // query params
+        if ($quality !== null) {
+            $queryParams['quality'] = ObjectSerializer::toQueryValue($quality);
+        }
+        // query params
+        if ($folder !== null) {
+            $queryParams['folder'] = ObjectSerializer::toQueryValue($folder);
+        }
+        // query params
+        if ($storage !== null) {
+            $queryParams['storage'] = ObjectSerializer::toQueryValue($storage);
+        }
+        // query params
+        if ($fontsFolder !== null) {
+            $queryParams['fontsFolder'] = ObjectSerializer::toQueryValue($fontsFolder);
+        }
+        // header params
+        if ($password !== null) {
+            $headerParams['password'] = ObjectSerializer::toHeaderValue($password);
+        }
+
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "name", $name);
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "slideIndex", $slideIndex);
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "shapeIndex", $shapeIndex);
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "rowIndex", $rowIndex);
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "cellIndex", $cellIndex);
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "paragraphIndex", $paragraphIndex);
+        $resourcePath = ObjectSerializer::addPathValue($resourcePath, "format", $format);
+        $_tempBody = [];
         $this->headerSelector->selectHeaders(
             $headerParams,
             ['application/json'],

@@ -60,7 +60,8 @@ class Html5ExportOptions extends ExportOptions
         'embedImages' => 'bool',
         'slidesLayoutOptions' => '\Aspose\Slides\Cloud\Sdk\Model\SlidesLayoutOptions',
         'templatesPath' => 'string',
-        'disableFontLigatures' => 'bool'
+        'disableFontLigatures' => 'bool',
+        'picturesCompression' => 'string'
     ];
 
     /**
@@ -74,7 +75,8 @@ class Html5ExportOptions extends ExportOptions
         'embedImages' => null,
         'slidesLayoutOptions' => null,
         'templatesPath' => null,
-        'disableFontLigatures' => null
+        'disableFontLigatures' => null,
+        'picturesCompression' => null
     ];
 
     /**
@@ -109,7 +111,8 @@ class Html5ExportOptions extends ExportOptions
         'embedImages' => 'EmbedImages',
         'slidesLayoutOptions' => 'SlidesLayoutOptions',
         'templatesPath' => 'TemplatesPath',
-        'disableFontLigatures' => 'DisableFontLigatures'
+        'disableFontLigatures' => 'DisableFontLigatures',
+        'picturesCompression' => 'PicturesCompression'
     ];
 
     /**
@@ -123,7 +126,8 @@ class Html5ExportOptions extends ExportOptions
         'embedImages' => 'setEmbedImages',
         'slidesLayoutOptions' => 'setSlidesLayoutOptions',
         'templatesPath' => 'setTemplatesPath',
-        'disableFontLigatures' => 'setDisableFontLigatures'
+        'disableFontLigatures' => 'setDisableFontLigatures',
+        'picturesCompression' => 'setPicturesCompression'
     ];
 
     /**
@@ -137,7 +141,8 @@ class Html5ExportOptions extends ExportOptions
         'embedImages' => 'getEmbedImages',
         'slidesLayoutOptions' => 'getSlidesLayoutOptions',
         'templatesPath' => 'getTemplatesPath',
-        'disableFontLigatures' => 'getDisableFontLigatures'
+        'disableFontLigatures' => 'getDisableFontLigatures',
+        'picturesCompression' => 'getPicturesCompression'
     ];
 
     /**
@@ -181,8 +186,31 @@ class Html5ExportOptions extends ExportOptions
         return self::$swaggerModelName;
     }
 
+    const PICTURES_COMPRESSION_DPI330 = 'Dpi330';
+    const PICTURES_COMPRESSION_DPI220 = 'Dpi220';
+    const PICTURES_COMPRESSION_DPI150 = 'Dpi150';
+    const PICTURES_COMPRESSION_DPI96 = 'Dpi96';
+    const PICTURES_COMPRESSION_DPI72 = 'Dpi72';
+    const PICTURES_COMPRESSION_DOCUMENT_RESOLUTION = 'DocumentResolution';
     
 
+    
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getPicturesCompressionAllowableValues()
+    {
+        return [
+            self::PICTURES_COMPRESSION_DPI330,
+            self::PICTURES_COMPRESSION_DPI220,
+            self::PICTURES_COMPRESSION_DPI150,
+            self::PICTURES_COMPRESSION_DPI96,
+            self::PICTURES_COMPRESSION_DPI72,
+            self::PICTURES_COMPRESSION_DOCUMENT_RESOLUTION,
+        ];
+    }
     
 
 
@@ -202,6 +230,7 @@ class Html5ExportOptions extends ExportOptions
         $this->container['slidesLayoutOptions'] = isset($data['slidesLayoutOptions']) ? $data['slidesLayoutOptions'] : null;
         $this->container['templatesPath'] = isset($data['templatesPath']) ? $data['templatesPath'] : null;
         $this->container['disableFontLigatures'] = isset($data['disableFontLigatures']) ? $data['disableFontLigatures'] : null;
+        $this->container['picturesCompression'] = isset($data['picturesCompression']) ? $data['picturesCompression'] : null;
         $this->container['format'] = 'html5';
         
     }
@@ -214,6 +243,14 @@ class Html5ExportOptions extends ExportOptions
     public function listInvalidProperties()
     {
         $invalidProperties = parent::listInvalidProperties();
+
+        $allowedValues = $this->getPicturesCompressionAllowableValues();
+        if (!in_array($this->container['picturesCompression'], $allowedValues)) {
+            $invalidProperties[] = sprintf(
+                "invalid value for 'picturesCompression', must be one of '%s'",
+                implode("', '", $allowedValues)
+            );
+        }
 
         return $invalidProperties;
     }
@@ -230,6 +267,10 @@ class Html5ExportOptions extends ExportOptions
             return false;
         }
 
+        $allowedValues = $this->getPicturesCompressionAllowableValues();
+        if (!in_array($this->container['picturesCompression'], $allowedValues)) {
+            return false;
+        }
         return true;
     }
 
@@ -374,6 +415,53 @@ class Html5ExportOptions extends ExportOptions
     public function setDisableFontLigatures($disableFontLigatures)
     {
         $this->container['disableFontLigatures'] = $disableFontLigatures;
+
+        return $this;
+    }
+
+    /**
+     * Gets picturesCompression
+     *
+     * @return string
+     */
+    public function getPicturesCompression()
+    {
+        return $this->container['picturesCompression'];
+    }
+
+    /**
+     * Sets picturesCompression
+     *
+     * @param string $picturesCompression Represents the pictures compression level. Pictures are not compressed (DocumentResolution) by default. Not applied when TemplatesPath is set.
+     *
+     * @return $this
+     */
+    public function setPicturesCompression($picturesCompression)
+    {
+        $allowedValues = $this->getPicturesCompressionAllowableValues();
+
+
+        if (is_numeric($picturesCompression)) {
+            if ($picturesCompression >= sizeof($allowedValues)) {
+                throw new \InvalidArgumentException(
+                    sprintf(
+                        "Invalid value for 'picturesCompression', must be one of '%s'",
+                        implode("', '", $allowedValues)
+                    )
+                );
+                $picturesCompression = $allowedValues[$picturesCompression];
+            }
+        } else {
+            if (!is_null($picturesCompression) && !in_array($picturesCompression, $allowedValues)) {
+                throw new \InvalidArgumentException(
+                    sprintf(
+                        "Invalid value for 'picturesCompression', must be one of '%s'",
+                        implode("', '", $allowedValues)
+                    )
+                );
+            }
+        }
+        $this->container['picturesCompression'] = $picturesCompression;
 
         return $this;
     }

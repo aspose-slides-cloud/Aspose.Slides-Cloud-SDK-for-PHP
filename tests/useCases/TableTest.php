@@ -31,6 +31,7 @@ namespace Aspose\Slides\Cloud\Sdk\Tests\UseCases;
 use Aspose\Slides\Cloud\Sdk\Model\TableCell;
 use Aspose\Slides\Cloud\Sdk\Model\TableCellMergeOptions;
 use Aspose\Slides\Cloud\Sdk\Model\TableRow;
+use Aspose\Slides\Cloud\Sdk\Model\ImageExportFormat;
 use Aspose\Slides\Cloud\Sdk\Model\Portion;
 use Aspose\Slides\Cloud\Sdk\Model\Paragraph;
 use PHPUnit\Framework\Assert;
@@ -368,6 +369,60 @@ class TableTest extends TestBase
         );
 
         Assert::assertEquals(count($response->getParagraphLinks()), 0);
+    }
+
+    public function testDownloadTableCellParagraph()
+    {
+        $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
+
+        $rowIndex = 1;
+        $cellIndex = 1;
+        $paragraphIndex = 1;
+
+        $result = $this->getSlidesApi()->downloadTableCellParagraph(
+            self::fileName,
+            self::slideIndex,
+            self::shapeIndex,
+            $rowIndex,
+            $cellIndex,
+            $paragraphIndex,
+            ImageExportFormat::PNG,
+            null,
+            null,
+            null,
+            self::password,
+            self::folderName
+        );
+        Assert::assertTrue($result->isFile());
+        Assert::assertGreaterThan(0, $result->getSize());
+    }
+
+    public function testSaveTableCellParagraph()
+    {
+        $this->getSlidesApi()->copyFile(self::tempFilePath, self::filePath);
+
+        $rowIndex = 1;
+        $cellIndex = 1;
+        $paragraphIndex = 1;
+        $outPath = self::folderName . "/tableCellParagraph.png";
+
+        $this->getSlidesApi()->saveTableCellParagraph(
+            self::fileName,
+            self::slideIndex,
+            self::shapeIndex,
+            $rowIndex,
+            $cellIndex,
+            $paragraphIndex,
+            ImageExportFormat::PNG,
+            $outPath,
+            null,
+            null,
+            null,
+            self::password,
+            self::folderName
+        );
+        $result = $this->getSlidesApi()->objectExists($outPath);
+        Assert::assertTrue($result->getExists());
     }
 
     public function testGetTableCellPortions()
